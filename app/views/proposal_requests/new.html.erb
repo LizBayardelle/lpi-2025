@@ -148,10 +148,8 @@
             </div>
           </div>
 
-          <!-- reCAPTCHA -->
-          <div class="flex justify-center">
-            <%= recaptcha_tags %>
-          </div>
+          <!-- reCAPTCHA v3 (invisible) -->
+          <%= recaptcha_v3(action: 'proposal', site_key: ENV['RECAPTCHA_SITE_KEY']) %>
 
           <!-- Submit -->
           <div class="text-center">

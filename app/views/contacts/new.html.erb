@@ -115,10 +115,8 @@
                           error_html: { class: "text-red-600 text-sm mt-1" } %>
             </div>
 
-            <!-- reCAPTCHA -->
-            <div class="flex justify-center">
-              <%= recaptcha_tags %>
-            </div>
+            <!-- reCAPTCHA v3 (invisible) -->
+            <%= recaptcha_v3(action: 'contact', site_key: ENV['RECAPTCHA_SITE_KEY']) %>
 
             <div class="text-center">
               <%= f.button :submit, "Send Message", class: "btn-primary text-lg px-8 py-4" %>

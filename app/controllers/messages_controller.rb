@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     
-    if verify_recaptcha(model: @message) && @message.save
+    if verify_recaptcha(action: 'contact', minimum_score: 0.5) && @message.save
       redirect_to contact_path, notice: 'Thank you for your message! We\'ll get back to you soon.'
     else
       # Store the message for the form to repopulate

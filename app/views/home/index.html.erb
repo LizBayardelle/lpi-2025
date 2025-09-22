@@ -19,7 +19,7 @@
       </p>
       
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-on-scroll">
-        <%= link_to "See Our Work", "#work", class: "btn-secondary text-base" %>
+        <%= link_to "See Our Work", projects_path, class: "btn-secondary text-base" %>
         <%= link_to "Get My Free Plan", new_proposal_request_path, class: "btn-primary text-base" %>
       </div>
     </div>
@@ -157,7 +157,7 @@
     </div>
 
     <div class="text-center mt-12 animate-on-scroll">
-      <%= link_to "View All Articles", blogs_path, class: "btn-outline" %>
+      <%= link_to "View All Articles", blog_path, class: "btn-outline" %>
     </div>
   </div>
 </section>

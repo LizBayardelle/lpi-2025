@@ -8,7 +8,7 @@ class ProposalRequestsController < ApplicationController
   def create
     @proposal_request = ProposalRequest.new(proposal_request_params)
     
-    if verify_recaptcha(model: @proposal_request) && @proposal_request.save
+    if verify_recaptcha(action: 'proposal', minimum_score: 0.5) && @proposal_request.save
       # Send notification email (you can add this later)
       redirect_to new_proposal_request_path, notice: 'Thank you! We\'ve received your proposal request and will get back to you within 24 hours.'
     else
