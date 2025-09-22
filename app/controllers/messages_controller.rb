@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  include Recaptcha::Verify
+  include Recaptcha::Adapters::ControllerMethods
   def create
     @message = Message.new(message_params)
     
