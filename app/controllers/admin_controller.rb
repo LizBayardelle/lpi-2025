@@ -3,7 +3,7 @@ class AdminController < ApplicationController
   before_action :ensure_admin
 
   def index
-    @projects = Project.all.order(:created_at)
+    @projects = Project.all.includes(image_attachment: :blob).order(:created_at)
     @messages = Message.recent.limit(50)
     @blog_posts = BlogPost.all.order(created_at: :desc)
     @proposal_requests = ProposalRequest.recent.limit(50)

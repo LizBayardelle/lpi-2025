@@ -101,7 +101,7 @@
 <script>
   // Pass data to React component
   window.adminData = {
-    projects: <%= raw @projects.to_json(include: { image_attachment: { include: :blob } }) %>,
+    projects: <%= raw @projects.map(&:as_json_with_image_url).to_json %>,
     messages: <%= raw @messages.to_json(only: [:id, :name, :email, :subject, :content, :read, :created_at]) %>,
     blogPosts: <%= raw @blog_posts.map(&:as_json_with_urls).to_json %>,
     proposalRequests: <%= raw @proposal_requests.map(&:as_json_with_admin_data).to_json %>,

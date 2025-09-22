@@ -15,4 +15,10 @@ class Project < ApplicationRecord
   def should_generate_new_friendly_id?
     name_changed? || super
   end
+  
+  def as_json_with_image_url(options = {})
+    as_json(options).merge({
+      'image_url' => image.attached? ? Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true) : nil
+    })
+  end
 end
