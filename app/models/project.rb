@@ -1,3 +1,5 @@
+require 'redcarpet'
+
 class Project < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -14,6 +16,29 @@ class Project < ApplicationRecord
   
   def should_generate_new_friendly_id?
     name_changed? || super
+  end
+  
+  def long_description_html
+    renderer = Redcarpet::Render::HTML.new(
+      filter_html: false,
+      no_intra_emphasis: true,
+      tables: true,
+      fenced_code_blocks: true,
+      autolink: true,
+      strikethrough: true,
+      superscript: true
+    )
+    
+    markdown = Redcarpet::Markdown.new(renderer,
+      tables: true,
+      fenced_code_blocks: true,
+      autolink: true,
+      strikethrough: true,
+      superscript: true,
+      no_intra_emphasis: true
+    )
+    
+    markdown.render(long_description || '').html_safe
   end
   
   def as_json_with_image_url(options = {})

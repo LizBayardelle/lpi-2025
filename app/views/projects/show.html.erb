@@ -10,7 +10,7 @@
             alt: @project.name, 
             class: "w-full h-full object-cover",
             style: "object-position: center" %>
-        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>
       </div>
     <% else %>
       <div class="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900"></div>
@@ -66,8 +66,8 @@
             The Challenge
           </h2>
           
-          <div class="text-slate-700 leading-relaxed text-lg space-y-6">
-            <%= simple_format(@project.long_description, {}, wrapper_tag: "div") %>
+          <div class="text-slate-700 leading-relaxed text-lg">
+            <%= @project.long_description_html %>
           </div>
         </div>
 
