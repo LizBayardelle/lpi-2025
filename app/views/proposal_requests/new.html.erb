@@ -1,0 +1,211 @@
+<% content_for :title, "Get Your Free Proposal" %>
+<% content_for :meta_description, "Get a custom proposal for your web development project. No obligation, just detailed planning and pricing." %>
+
+<div class="min-h-screen bg-white">
+  <!-- Hero Section with Parallax -->
+  <section class="relative h-[28rem] md:h-[40rem] flex items-center justify-center">
+    <!-- Background with parallax -->
+    <div class="absolute inset-0">
+      <img src="https://linchpinindustries.s3.us-west-1.amazonaws.com/Images/colored-pencils.jpg" 
+           alt="Colored pencils" 
+           class="w-full h-full object-cover"
+           style="object-position: center" />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
+    </div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 container-custom px-4 sm:px-6 lg:px-8 text-center">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="font-display text-4xl md:text-5xl font-light text-white mb-6 leading-tight tracking-tight">
+          Get Your Free Proposal
+        </h1>
+        <p class="text-xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto">
+          Tell us about your project and we'll send you a detailed proposal with timeline, pricing, and next steps. No obligation, just helpful planning.
+        </p>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Form Section -->
+  <section class="py-16">
+    <div class="container-custom px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto">
+        
+        <% if notice %>
+          <div class="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg mb-8">
+            <%= notice %>
+          </div>
+        <% end %>
+
+        <% if alert %>
+          <div class="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-lg mb-8">
+            <%= alert %>
+          </div>
+        <% end %>
+
+        <%= simple_form_for @proposal_request, html: { class: "space-y-8" } do |f| %>
+          
+          <!-- Contact Information -->
+          <div class="bg-slate-50 rounded-xl p-6">
+            <h2 class="font-display text-2xl font-semibold text-slate-900 mb-6">Contact Information</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <%= f.input :name, 
+                  placeholder: "Your full name",
+                  input_html: { class: "form-input" },
+                  wrapper_html: { class: "md:col-span-1" } %>
+              
+              <%= f.input :email, 
+                  placeholder: "your@email.com",
+                  input_html: { class: "form-input" },
+                  wrapper_html: { class: "md:col-span-1" } %>
+              
+              <%= f.input :company, 
+                  placeholder: "Company name (optional)",
+                  input_html: { class: "form-input" },
+                  wrapper_html: { class: "md:col-span-1" } %>
+              
+              <%= f.input :phone, 
+                  placeholder: "Phone number (optional)",
+                  input_html: { class: "form-input" },
+                  wrapper_html: { class: "md:col-span-1" } %>
+            </div>
+          </div>
+
+          <!-- Project Basics -->
+          <div class="bg-slate-50 rounded-xl p-6">
+            <h2 class="font-display text-2xl font-semibold text-slate-900 mb-6">Project Basics</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <%= f.input :project_type, 
+                  collection: ProposalRequest::PROJECT_TYPES,
+                  prompt: "Select project type",
+                  input_html: { class: "form-input" } %>
+              
+              <%= f.input :budget_range, 
+                  collection: ProposalRequest::BUDGET_RANGES,
+                  prompt: "Select budget range",
+                  input_html: { class: "form-input" } %>
+              
+              <%= f.input :timeline, 
+                  collection: ProposalRequest::TIMELINES,
+                  prompt: "Select timeline",
+                  input_html: { class: "form-input" } %>
+            </div>
+          </div>
+
+          <!-- Project Details -->
+          <div class="bg-slate-50 rounded-xl p-6">
+            <h2 class="font-display text-2xl font-semibold text-slate-900 mb-6">Project Details</h2>
+            
+            <div class="space-y-6">
+              <%= f.input :project_description, 
+                  as: :text,
+                  placeholder: "Tell us about your project idea. What problem does it solve? What should it do?",
+                  input_html: { class: "form-input", rows: 5 },
+                  hint: "The more detail you provide, the more accurate our proposal will be." %>
+              
+              <%= f.input :existing_website, 
+                  placeholder: "https://yoursite.com (optional)",
+                  input_html: { class: "form-input" },
+                  hint: "If you have an existing website we should know about" %>
+              
+              <%= f.input :target_audience, 
+                  placeholder: "Who will use this? (optional)",
+                  input_html: { class: "form-input" },
+                  hint: "e.g., Small business owners, students, developers" %>
+            </div>
+          </div>
+
+          <!-- Additional Context -->
+          <div class="bg-slate-50 rounded-xl p-6">
+            <h2 class="font-display text-2xl font-semibold text-slate-900 mb-6">Additional Context</h2>
+            
+            <div class="space-y-6">
+              <%= f.input :special_requirements, 
+                  as: :text,
+                  placeholder: "Any specific features, integrations, or technical requirements? (optional)",
+                  input_html: { class: "form-input", rows: 3 },
+                  hint: "e.g., Payment processing, user accounts, mobile app, specific integrations" %>
+              
+              <%= f.input :why_custom, 
+                  as: :text,
+                  placeholder: "Why can't existing solutions work for you? (optional)",
+                  input_html: { class: "form-input", rows: 3 },
+                  hint: "This helps us understand your unique requirements" %>
+              
+              <%= f.input :success_metrics, 
+                  placeholder: "How will you measure success? (optional)",
+                  input_html: { class: "form-input" },
+                  hint: "e.g., Increase sales by 20%, save 5 hours per week, serve 1000 users" %>
+            </div>
+          </div>
+
+          <!-- reCAPTCHA -->
+          <div class="flex justify-center">
+            <%= recaptcha_tags %>
+          </div>
+
+          <!-- Submit -->
+          <div class="text-center">
+            <%= f.submit "Get My Free Proposal", class: "btn-primary text-lg px-8 py-4" %>
+            <p class="text-sm text-slate-500 mt-4">
+              We'll review your request and send a detailed proposal within 24 hours.
+            </p>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="py-16 bg-slate-50">
+    <div class="container-custom px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="font-display text-3xl font-bold text-slate-900 mb-12">
+          What You'll Get
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-slate-900 rounded-lg mx-auto mb-4 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 mb-2">Detailed Scope</h3>
+            <p class="text-slate-600">Clear breakdown of features, timeline, and deliverables</p>
+          </div>
+          
+          <div class="text-center">
+            <div class="w-16 h-16 bg-slate-900 rounded-lg mx-auto mb-4 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 mb-2">Fixed Pricing</h3>
+            <p class="text-slate-600">No hourly billing or surprise costs</p>
+          </div>
+          
+          <div class="text-center">
+            <div class="w-16 h-16 bg-slate-900 rounded-lg mx-auto mb-4 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 mb-2">Free Consultation</h3>
+            <p class="text-slate-600">30-minute call to discuss your project in detail</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

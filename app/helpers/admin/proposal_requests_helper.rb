@@ -1,0 +1,2 @@
+module Admin::ProposalRequestsHelper
+end

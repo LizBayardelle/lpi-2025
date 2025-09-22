@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_22_001721) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_22_025541) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -119,6 +119,26 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_22_001721) do
     t.string "slug"
     t.text "what_special"
     t.index ["slug"], name: "index_projects_on_slug", unique: true
+  end
+
+  create_table "proposal_requests", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "company"
+    t.string "phone"
+    t.string "project_type"
+    t.string "budget_range"
+    t.string "timeline"
+    t.text "project_description"
+    t.string "existing_website"
+    t.string "target_audience"
+    t.text "special_requirements"
+    t.text "why_custom"
+    t.string "success_metrics"
+    t.string "status", default: "submitted"
+    t.text "internal_notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "resources", force: :cascade do |t|

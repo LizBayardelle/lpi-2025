@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :proposal_requests, only: [:new, :create], path: "free-proposal"
   get "pages/about"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -38,12 +39,12 @@ Rails.application.routes.draw do
   resources :blog_posts, only: [:index, :show], path: "blog", as: :blogs
   resources :contacts, only: [:new, :create]
   resources :messages, only: [:create]
-  resources :rfps, only: [:new, :create], path: "free-proposal"
   resources :subscribers, only: [:create]
 
   # Admin routes
   get "admin", to: "admin#index", as: :admin_dashboard
   namespace :admin do
+    resources :proposal_requests, only: [:index, :show, :update, :destroy]
     resources :projects, only: [:index, :show, :create, :update, :destroy]
     resources :messages, only: [:index, :show, :update, :destroy]
     resources :blog_posts, only: [:index, :show, :create, :update, :destroy]

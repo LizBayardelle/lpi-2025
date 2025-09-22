@@ -1,0 +1,2 @@
+module ProposalRequestsHelper
+end

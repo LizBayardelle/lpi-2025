@@ -963,6 +963,404 @@ console.log('Hello world');
   );
 }
 
+function ProposalManager() {
+  const [proposals, setProposals] = useState([]);
+  const [selectedProposal, setSelectedProposal] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (window.adminData?.proposalRequests) {
+      setProposals(window.adminData.proposalRequests);
+      setLoading(false);
+    }
+  }, []);
+
+  const handleStatusUpdate = async (proposal, newStatus) => {
+    try {
+      const response = await fetch(`/admin/proposal_requests/${proposal.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': window.adminData.csrfToken
+        },
+        body: JSON.stringify({
+          proposal_request: { status: newStatus }
+        })
+      });
+
+      if (response.ok) {
+        const updatedProposal = await response.json();
+        setProposals(proposals.map(p => 
+          p.id === proposal.id ? updatedProposal : p
+        ));
+        if (selectedProposal && selectedProposal.id === proposal.id) {
+          setSelectedProposal(updatedProposal);
+        }
+      }
+    } catch (error) {
+      console.error('Error updating proposal status:', error);
+    }
+  };
+
+  const handleNotesUpdate = async (proposal, notes) => {
+    try {
+      const response = await fetch(`/admin/proposal_requests/${proposal.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': window.adminData.csrfToken
+        },
+        body: JSON.stringify({
+          proposal_request: { internal_notes: notes }
+        })
+      });
+
+      if (response.ok) {
+        const updatedProposal = await response.json();
+        setProposals(proposals.map(p => 
+          p.id === proposal.id ? updatedProposal : p
+        ));
+        if (selectedProposal && selectedProposal.id === proposal.id) {
+          setSelectedProposal(updatedProposal);
+        }
+      }
+    } catch (error) {
+      console.error('Error updating proposal notes:', error);
+    }
+  };
+
+  const handleDelete = async (proposal) => {
+    if (!confirm('Are you sure you want to delete this proposal request?')) return;
+
+    try {
+      const response = await fetch(`/admin/proposal_requests/${proposal.id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-Token': window.adminData.csrfToken
+        }
+      });
+
+      if (response.ok) {
+        setProposals(proposals.filter(p => p.id !== proposal.id));
+        if (selectedProposal && selectedProposal.id === proposal.id) {
+          setSelectedProposal(null);
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting proposal:', error);
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'submitted': return 'bg-blue-100 text-blue-800';
+      case 'reviewed': return 'bg-yellow-100 text-yellow-800';
+      case 'quoted': return 'bg-purple-100 text-purple-800';
+      case 'won': return 'bg-green-100 text-green-800';
+      case 'lost': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getPriorityColor = (score) => {
+    if (score >= 5) return 'text-red-600';
+    if (score >= 3) return 'text-yellow-600';
+    return 'text-gray-600';
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 mx-auto mb-4"></div>
+        <p className="text-slate-500">Loading proposals...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="font-display text-2xl font-medium text-slate-900">
+          Proposal Requests
+        </h2>
+        <div className="text-sm text-slate-500">
+          {proposals.filter(p => p.status === 'submitted').length} new submissions
+        </div>
+      </div>
+
+      {proposals.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="w-16 h-16 bg-slate-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
+            <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <h3 className="font-display text-lg font-medium text-slate-900 mb-2">No proposals yet</h3>
+          <p className="text-slate-500">Proposal requests will appear here when submitted</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Proposals List */}
+          <div className="space-y-4">
+            {proposals.map(proposal => (
+              <ProposalCard
+                key={proposal.id}
+                proposal={proposal}
+                isSelected={selectedProposal?.id === proposal.id}
+                onSelect={setSelectedProposal}
+                onStatusUpdate={handleStatusUpdate}
+                onDelete={handleDelete}
+                getStatusColor={getStatusColor}
+                getPriorityColor={getPriorityColor}
+              />
+            ))}
+          </div>
+
+          {/* Proposal Detail */}
+          <div className="lg:sticky lg:top-4">
+            {selectedProposal ? (
+              <ProposalDetail
+                proposal={selectedProposal}
+                onStatusUpdate={handleStatusUpdate}
+                onNotesUpdate={handleNotesUpdate}
+                onDelete={handleDelete}
+                getStatusColor={getStatusColor}
+                getPriorityColor={getPriorityColor}
+              />
+            ) : (
+              <div className="bg-slate-50 rounded-lg p-8 text-center">
+                <p className="text-slate-500">Select a proposal to view details</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProposalCard({ proposal, isSelected, onSelect, onStatusUpdate, onDelete, getStatusColor, getPriorityColor }) {
+  return (
+    <div 
+      className={`border rounded-lg p-4 cursor-pointer transition-all duration-200 ${
+        isSelected 
+          ? 'border-slate-900 bg-slate-50' 
+          : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+      }`}
+      onClick={() => onSelect(proposal)}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center space-x-2 mb-2">
+            <h3 className="font-medium text-slate-900 truncate">
+              {proposal.name}
+            </h3>
+            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(proposal.status)}`}>
+              {proposal.status_display}
+            </span>
+          </div>
+          <p className="text-sm text-slate-600 mb-1">{proposal.email}</p>
+          {proposal.company && (
+            <p className="text-sm text-slate-500 mb-2">{proposal.company}</p>
+          )}
+        </div>
+        <div className="flex items-center space-x-2 ml-4">
+          <span className={`text-xs font-medium ${getPriorityColor(proposal.priority_score)}`}>
+            Priority: {proposal.priority_score}
+          </span>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-3 gap-2 text-xs text-slate-500 mb-3">
+        <div>
+          <span className="font-medium">Type:</span><br/>
+          {proposal.project_type}
+        </div>
+        <div>
+          <span className="font-medium">Budget:</span><br/>
+          {proposal.budget_range}
+        </div>
+        <div>
+          <span className="font-medium">Timeline:</span><br/>
+          {proposal.timeline}
+        </div>
+      </div>
+      
+      <p className="text-sm text-slate-700 line-clamp-2 mb-2">
+        {proposal.short_description}
+      </p>
+      
+      <p className="text-xs text-slate-500">
+        {proposal.created_at_formatted}
+      </p>
+    </div>
+  );
+}
+
+function ProposalDetail({ proposal, onStatusUpdate, onNotesUpdate, onDelete, getStatusColor, getPriorityColor }) {
+  const [notes, setNotes] = useState(proposal.internal_notes || '');
+  const [isSavingNotes, setIsSavingNotes] = useState(false);
+
+  const handleNotesSubmit = async (e) => {
+    e.preventDefault();
+    setIsSavingNotes(true);
+    await onNotesUpdate(proposal, notes);
+    setIsSavingNotes(false);
+  };
+
+  const statusOptions = [
+    { value: 'submitted', label: 'Submitted' },
+    { value: 'reviewed', label: 'Reviewed' },
+    { value: 'quoted', label: 'Quoted' },
+    { value: 'won', label: 'Won' },
+    { value: 'lost', label: 'Lost' }
+  ];
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg p-6">
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h2 className="font-display text-xl font-medium text-slate-900 mb-1">
+            {proposal.name}
+          </h2>
+          <p className="text-slate-600">{proposal.email}</p>
+          {proposal.company && (
+            <p className="text-slate-500 text-sm">{proposal.company}</p>
+          )}
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(proposal.status)}`}>
+            {proposal.status_display}
+          </span>
+          <span className={`text-sm font-medium ${getPriorityColor(proposal.priority_score)}`}>
+            Priority: {proposal.priority_score}
+          </span>
+        </div>
+      </div>
+
+      {/* Project Details */}
+      <div className="space-y-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 text-sm">
+          <div>
+            <span className="font-medium text-slate-900">Project Type:</span>
+            <p className="text-slate-600">{proposal.project_type}</p>
+          </div>
+          <div>
+            <span className="font-medium text-slate-900">Budget Range:</span>
+            <p className="text-slate-600">{proposal.budget_range}</p>
+          </div>
+          <div>
+            <span className="font-medium text-slate-900">Timeline:</span>
+            <p className="text-slate-600">{proposal.timeline}</p>
+          </div>
+        </div>
+
+        <div>
+          <span className="font-medium text-slate-900 text-sm">Project Description:</span>
+          <p className="text-slate-600 text-sm mt-1 leading-relaxed">{proposal.project_description}</p>
+        </div>
+
+        {proposal.existing_website && (
+          <div>
+            <span className="font-medium text-slate-900 text-sm">Existing Website:</span>
+            <p className="text-slate-600 text-sm mt-1">
+              <a href={proposal.existing_website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                {proposal.existing_website}
+              </a>
+            </p>
+          </div>
+        )}
+
+        {proposal.target_audience && (
+          <div>
+            <span className="font-medium text-slate-900 text-sm">Target Audience:</span>
+            <p className="text-slate-600 text-sm mt-1">{proposal.target_audience}</p>
+          </div>
+        )}
+
+        {proposal.special_requirements && (
+          <div>
+            <span className="font-medium text-slate-900 text-sm">Special Requirements:</span>
+            <p className="text-slate-600 text-sm mt-1 leading-relaxed">{proposal.special_requirements}</p>
+          </div>
+        )}
+
+        {proposal.why_custom && (
+          <div>
+            <span className="font-medium text-slate-900 text-sm">Why Custom:</span>
+            <p className="text-slate-600 text-sm mt-1 leading-relaxed">{proposal.why_custom}</p>
+          </div>
+        )}
+
+        {proposal.success_metrics && (
+          <div>
+            <span className="font-medium text-slate-900 text-sm">Success Metrics:</span>
+            <p className="text-slate-600 text-sm mt-1">{proposal.success_metrics}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Status Update */}
+      <div className="border-t pt-4 mb-4">
+        <label className="block text-sm font-medium text-slate-900 mb-2">Update Status:</label>
+        <select 
+          value={proposal.status}
+          onChange={(e) => onStatusUpdate(proposal, e.target.value)}
+          className="form-input text-sm"
+        >
+          {statusOptions.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Internal Notes */}
+      <div className="border-t pt-4 mb-4">
+        <form onSubmit={handleNotesSubmit}>
+          <label className="block text-sm font-medium text-slate-900 mb-2">Internal Notes:</label>
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            className="form-input text-sm"
+            rows="4"
+            placeholder="Add internal notes about this proposal..."
+          />
+          <button
+            type="submit"
+            disabled={isSavingNotes}
+            className="mt-2 text-sm bg-slate-900 text-white px-4 py-2 rounded hover:bg-slate-800 transition-colors disabled:opacity-50"
+          >
+            {isSavingNotes ? 'Saving...' : 'Save Notes'}
+          </button>
+        </form>
+      </div>
+
+      {/* Actions */}
+      <div className="border-t pt-4 flex justify-between">
+        <a 
+          href={`mailto:${proposal.email}?subject=Re: Your Project Proposal`}
+          className="text-sm bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+        >
+          Reply via Email
+        </a>
+        
+        <button
+          onClick={() => onDelete(proposal)}
+          className="text-sm text-red-600 hover:text-red-800 px-4 py-2 border border-red-300 rounded hover:bg-red-50 transition-colors"
+        >
+          Delete
+        </button>
+      </div>
+
+      <div className="text-xs text-slate-500 mt-4 pt-4 border-t">
+        Submitted: {proposal.created_at_formatted}
+      </div>
+    </div>
+  );
+}
+
 // Initialize the React components when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   const projectsContainer = document.getElementById('admin-projects-manager');
@@ -981,6 +1379,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (blogContainer && window.adminData) {
     const root = createRoot(blogContainer);
     root.render(<BlogManager />);
+  }
+
+  const proposalContainer = document.getElementById('admin-proposal-manager');
+  if (proposalContainer && window.adminData) {
+    const root = createRoot(proposalContainer);
+    root.render(<ProposalManager />);
   }
 });
 

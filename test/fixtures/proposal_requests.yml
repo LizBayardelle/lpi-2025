@@ -1,0 +1,35 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email: MyString
+  company: MyString
+  phone: MyString
+  project_type: MyString
+  budget_range: MyString
+  timeline: MyString
+  project_description: MyText
+  existing_website: MyString
+  target_audience: MyString
+  special_requirements: MyText
+  why_custom: MyText
+  success_metrics: MyString
+  status: MyString
+  internal_notes: MyText
+
+two:
+  name: MyString
+  email: MyString
+  company: MyString
+  phone: MyString
+  project_type: MyString
+  budget_range: MyString
+  timeline: MyString
+  project_description: MyText
+  existing_website: MyString
+  target_audience: MyString
+  special_requirements: MyText
+  why_custom: MyText
+  success_metrics: MyString
+  status: MyString
+  internal_notes: MyText

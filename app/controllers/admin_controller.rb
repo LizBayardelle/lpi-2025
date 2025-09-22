@@ -6,6 +6,7 @@ class AdminController < ApplicationController
     @projects = Project.all.order(:created_at)
     @messages = Message.recent.limit(50)
     @blog_posts = BlogPost.all.order(created_at: :desc)
+    @proposal_requests = ProposalRequest.recent.limit(50)
   end
 
   private
