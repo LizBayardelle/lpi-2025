@@ -48,7 +48,7 @@ class Admin::BlogPostsController < ApplicationController
   end
 
   def blog_post_params
-    params.require(:blog_post).permit(:title, :teaser, :content, :published, :featured_image)
+    params.require(:blog_post).permit(:title, :teaser, :content, :published, :featured, :featured_image)
   end
 
   def authenticate_admin!

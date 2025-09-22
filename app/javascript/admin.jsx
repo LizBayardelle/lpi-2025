@@ -652,6 +652,41 @@ function BlogManager() {
     }
   };
 
+  const toggleFeatured = async (post) => {
+    try {
+      const formData = new FormData();
+      formData.append('blog_post[featured]', !post.featured);
+
+      const response = await fetch(`/admin/blog_posts/${post.id}`, {
+        method: 'PATCH',
+        headers: {
+          'X-CSRF-Token': window.adminData.csrfToken
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        const updatedPost = await response.json();
+        // Update all posts, as featuring one may un-feature another
+        const updatedPosts = posts.map(p => {
+          if (p.id === post.id) {
+            return updatedPost;
+          } else if (updatedPost.featured && p.featured) {
+            // If the updated post is featured, un-feature any other featured posts
+            return { ...p, featured: false };
+          }
+          return p;
+        });
+        setPosts(updatedPosts);
+      } else {
+        alert('Error updating featured status');
+      }
+    } catch (error) {
+      console.error('Error updating featured:', error);
+      alert('Error updating featured status');
+    }
+  };
+
   if (loading) {
     return (
       <div className="text-center py-8">
@@ -711,6 +746,7 @@ function BlogManager() {
               }}
               onDelete={handleDelete}
               onTogglePublished={togglePublished}
+              onToggleFeatured={toggleFeatured}
             />
           ))}
         </div>
@@ -719,7 +755,7 @@ function BlogManager() {
   );
 }
 
-function BlogPostCard({ post, onEdit, onDelete, onTogglePublished }) {
+function BlogPostCard({ post, onEdit, onDelete, onTogglePublished, onToggleFeatured }) {
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -732,9 +768,22 @@ function BlogPostCard({ post, onEdit, onDelete, onTogglePublished }) {
     <div className="bg-white border border-slate-200 rounded-lg p-6">
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-slate-900 text-lg truncate mb-2">
-            {post.title}
-          </h3>
+          <div className="flex items-center space-x-2 mb-2">
+            <h3 className="font-medium text-slate-900 text-lg truncate">
+              {post.title}
+            </h3>
+            <button
+              onClick={() => onToggleFeatured(post)}
+              className={`p-1 rounded hover:bg-slate-100 transition-colors ${
+                post.featured ? 'text-yellow-500' : 'text-slate-300'
+              }`}
+              title={post.featured ? 'Remove from featured' : 'Set as featured'}
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </button>
+          </div>
           
           <p className="text-slate-600 mb-3 line-clamp-2">
             {post.teaser}
@@ -750,6 +799,11 @@ function BlogPostCard({ post, onEdit, onDelete, onTogglePublished }) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
                 <span>Featured image</span>
+              </span>
+            )}
+            {post.featured && (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                Featured
               </span>
             )}
           </div>

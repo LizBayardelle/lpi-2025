@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_22_025541) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_22_152919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_22_025541) do
     t.datetime "published_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "featured", default: false, null: false
+    t.index ["featured"], name: "index_blog_posts_on_featured"
   end
 
   create_table "blogs", force: :cascade do |t|

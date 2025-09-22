@@ -13,8 +13,10 @@ class BlogPost < ApplicationRecord
   scope :published, -> { where(published: true) }
   scope :recent, -> { order(published_at: :desc) }
   scope :draft, -> { where(published: false) }
+  scope :featured, -> { where(featured: true) }
   
   before_save :set_published_at
+  before_save :ensure_single_featured
   
   def published?
     published
@@ -52,7 +54,8 @@ class BlogPost < ApplicationRecord
       'featured_image_url' => featured_image.attached? ? Rails.application.routes.url_helpers.rails_blob_url(featured_image, only_path: true) : nil,
       'edit_url' => Rails.application.routes.url_helpers.admin_blog_post_path(self),
       'public_url' => "/blog/#{slug || id}",
-      'status' => published? ? 'Published' : 'Draft'
+      'status' => published? ? 'Published' : 'Draft',
+      'featured' => featured
     })
   end
   
@@ -63,6 +66,12 @@ class BlogPost < ApplicationRecord
       self.published_at = Time.current
     elsif !published
       self.published_at = nil
+    end
+  end
+  
+  def ensure_single_featured
+    if featured_changed? && featured
+      BlogPost.where.not(id: id).update_all(featured: false)
     end
   end
 end
