@@ -1,0 +1,128 @@
+<% content_for :title, "Blog" %>
+<% content_for :meta_description, "Insights, tutorials, and thoughts on custom web development, business strategy, and building solutions that actually work." %>
+
+<!-- Hero Section with Parallax -->
+<section class="blog-hero-section relative h-[28rem] md:h-[40rem] flex items-center justify-center">
+  <!-- Background with CSS parallax -->
+  <div class="blog-hero-bg"></div>
+
+  <!-- Hero Content -->
+  <div class="blog-hero-content relative z-10 container-custom px-4 sm:px-6 lg:px-8 pt-40 pb-32 md:pt-48 md:pb-40">
+    <div class="max-w-4xl text-center mx-auto">
+      <h1 class="font-display text-4xl md:text-6xl font-light leading-tight tracking-tight mb-6 animate-on-scroll text-white">
+        Blog
+      </h1>
+      <p class="text-xl text-gray-300 mb-8 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+        Insights, tutorials, and thoughts on building custom solutions
+      </p>
+      <p class="text-lg text-gray-300 mb-12 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+        From technical deep-dives to business strategy, we share what we've learned building custom web applications
+      </p>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Blog Posts -->
+<section class="py-20 bg-white">
+  <div class="container-custom px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      
+      <% if @blog_posts.any? %>
+        <div class="space-y-16">
+          <% @blog_posts.each_with_index do |post, index| %>
+            <article class="<%= 'border-t border-gray-200 pt-16' if index > 0 %>">
+              <div class="grid md:grid-cols-3 gap-8 items-start">
+                
+                <!-- Featured Image -->
+                <div class="md:col-span-1">
+                  <% if post.featured_image.attached? %>
+                    <%= link_to "/blog/#{post.slug}", class: "block group" do %>
+                      <div class="aspect-[4/3] bg-slate-100 rounded-xl overflow-hidden">
+                        <%= image_tag post.featured_image, 
+                            alt: post.title,
+                            class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <%= link_to "/blog/#{post.slug}", class: "block group" do %>
+                      <div class="aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl flex items-center justify-center group-hover:from-slate-200 group-hover:to-slate-300 transition-colors">
+                        <div class="text-slate-400 text-center">
+                          <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                          </svg>
+                          <p class="text-sm">Blog Post</p>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+
+                <!-- Content -->
+                <div class="md:col-span-2">
+                  <div class="flex items-center gap-4 text-sm text-slate-500 mb-3">
+                    <time datetime="<%= post.published_at&.iso8601 %>">
+                      <%= post.published_at&.strftime("%B %d, %Y") %>
+                    </time>
+                  </div>
+                  
+                  <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-4 leading-tight">
+                    <%= link_to post.title, "/blog/#{post.slug}", class: "hover:text-slate-700 transition-colors" %>
+                  </h2>
+                  
+                  <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                    <%= post.teaser %>
+                  </p>
+                  
+                  <%= link_to "Read more →", "/blog/#{post.slug}", class: "inline-flex items-center font-medium text-slate-900 hover:text-slate-700 transition-colors" %>
+                </div>
+              </div>
+            </article>
+          <% end %>
+        </div>
+      <% else %>
+        <!-- Empty State -->
+        <div class="text-center py-20">
+          <div class="max-w-md mx-auto">
+            <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </div>
+            <h3 class="font-display text-2xl font-bold text-slate-900 mb-4">No blog posts yet</h3>
+            <p class="text-slate-600 mb-8">
+              We're working on some great content for you. Check back soon for insights on custom web development, 
+              business strategy, and building solutions that actually work.
+            </p>
+            <%= link_to "See Our Work Instead", projects_path, class: "btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-slate-900">
+  <div class="container-custom px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-6">
+        Ready to Build Something Custom?
+      </h2>
+      <p class="text-xl text-slate-300 mb-8">
+        Whether you have a clear vision or just an idea that needs refining, let's talk about turning it into reality.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to "Get Free Proposal", new_rfp_path, class: "btn-secondary" %>
+        <%= link_to "Schedule a Chat", contact_path, class: "btn-primary" %>
+      </div>
+    </div>
+  </div>
+</section>

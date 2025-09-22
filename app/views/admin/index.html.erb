@@ -1,0 +1,148 @@
+<% content_for :title, "Admin Dashboard - Project Management" %>
+
+<div class="min-h-screen bg-gray-50 pt-24 pb-8">
+  <div class="container-custom px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="mb-8">
+        <h1 class="font-display text-3xl md:text-4xl font-light text-slate-900 mb-2">
+          Admin Dashboard
+        </h1>
+        <p class="text-slate-600">Manage your portfolio projects</p>
+      </div>
+
+      <!-- Admin Dashboard Tabs -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Tab Navigation -->
+        <div class="border-b border-slate-200">
+          <nav class="flex space-x-8 px-6" role="tablist">
+            <button 
+              class="py-4 px-1 border-b-2 border-slate-900 font-medium text-sm text-slate-900 whitespace-nowrap focus:outline-none"
+              data-tab="projects"
+              role="tab"
+              aria-selected="true"
+            >
+              Manage Projects
+            </button>
+            <button 
+              class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap focus:outline-none transition-colors"
+              data-tab="contacts"
+              role="tab"
+              aria-selected="false"
+            >
+              Contact Submissions
+            </button>
+            <button 
+              class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap focus:outline-none transition-colors"
+              data-tab="blog"
+              role="tab"
+              aria-selected="false"
+            >
+              Blog Posts
+            </button>
+            <button 
+              class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap focus:outline-none transition-colors"
+              data-tab="proposals"
+              role="tab"
+              aria-selected="false"
+            >
+              Proposals & RFPs
+            </button>
+          </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="p-6">
+          <!-- Projects Tab -->
+          <div id="projects-tab" class="tab-content" role="tabpanel">
+            <div id="admin-projects-manager">
+              <div class="text-center py-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 mx-auto mb-4"></div>
+                <p class="text-slate-500">Loading project manager...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Submissions Tab -->
+          <div id="contacts-tab" class="tab-content hidden" role="tabpanel">
+            <div id="admin-messages-manager">
+              <div class="text-center py-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 mx-auto mb-4"></div>
+                <p class="text-slate-500">Loading message manager...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Blog Tab -->
+          <div id="blog-tab" class="tab-content hidden" role="tabpanel">
+            <div id="admin-blog-manager">
+              <div class="text-center py-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 mx-auto mb-4"></div>
+                <p class="text-slate-500">Loading blog manager...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Proposals Tab -->
+          <div id="proposals-tab" class="tab-content hidden" role="tabpanel">
+            <div class="text-center py-12">
+              <div class="w-16 h-16 bg-slate-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+              </div>
+              <h3 class="font-display text-lg font-medium text-slate-900 mb-2">Proposals & RFPs</h3>
+              <p class="text-slate-500">Manage project proposals and requests</p>
+              <p class="text-sm text-slate-400 mt-2">Coming soon...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Pass data to React component
+  window.adminData = {
+    projects: <%= raw @projects.to_json(include: { image_attachment: { include: :blob } }) %>,
+    messages: <%= raw @messages.to_json(only: [:id, :name, :email, :subject, :content, :read, :created_at]) %>,
+    blogPosts: <%= raw @blog_posts.map(&:as_json_with_urls).to_json %>,
+    csrfToken: '<%= form_authenticity_token %>'
+  };
+
+  // Tab functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('[data-tab]');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        const targetTab = this.getAttribute('data-tab');
+
+        // Remove active state from all tabs
+        tabs.forEach(t => {
+          t.classList.remove('border-slate-900', 'text-slate-900');
+          t.classList.add('border-transparent', 'text-slate-500');
+          t.setAttribute('aria-selected', 'false');
+        });
+
+        // Add active state to clicked tab
+        this.classList.remove('border-transparent', 'text-slate-500');
+        this.classList.add('border-slate-900', 'text-slate-900');
+        this.setAttribute('aria-selected', 'true');
+
+        // Hide all tab contents
+        tabContents.forEach(content => {
+          content.classList.add('hidden');
+        });
+
+        // Show target tab content
+        const targetContent = document.getElementById(targetTab + '-tab');
+        if (targetContent) {
+          targetContent.classList.remove('hidden');
+        }
+      });
+    });
+  });
+</script>

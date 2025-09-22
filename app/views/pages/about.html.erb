@@ -1,0 +1,180 @@
+<% content_for :title, "About Us" %>
+<% content_for :meta_description, "Learn about Linchpin Industries' mission to build custom web solutions tailored to your unique business needs. No corporate overhead, just results." %>
+
+<!-- Hero Section with Parallax -->
+<section class="about-hero-section relative h-[28rem] md:h-[40rem] flex items-center justify-center">
+  <!-- Background with CSS parallax -->
+  <div class="about-hero-bg"></div>
+
+  <!-- Hero Content -->
+  <div class="about-hero-content relative z-10 container-custom px-4 sm:px-6 lg:px-8 pt-40 pb-32 md:pt-48 md:pb-40">
+    <div class="max-w-4xl text-center mx-auto">
+      <h1 class="font-display text-4xl md:text-6xl font-light leading-tight tracking-tight mb-6 animate-on-scroll text-white">
+        About Linchpin Industries
+      </h1>
+      <p class="text-xl text-gray-300 mb-8 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+        Building truly custom web solutions tailored to your unique business needs
+      </p>
+      <p class="text-lg text-gray-300 mb-12 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+        No corporate overhead, just results
+      </p>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Company Story -->
+<section class="py-20 bg-white">
+  <div class="container-custom px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Mission Statement -->
+      <div class="text-center mb-16">
+        <h2 class="font-display text-4xl font-bold text-slate-900 mb-6">Our Mission</h2>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          We build custom web applications and digital solutions for businesses with unique requirements. 
+          When off-the-shelf solutions don't fit your specific needs, we create something that does.
+        </p>
+      </div>
+
+      <!-- What Makes Us Different -->
+      <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 lg:p-12 mb-16">
+        <h3 class="font-display text-3xl font-bold text-slate-900 mb-8 text-center">What Makes Us Different</h3>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h4 class="font-semibold text-slate-900 text-xl mb-4">No Corporate Overhead</h4>
+            <p class="text-slate-600 leading-relaxed">
+              We're lean by design. No layers of management, no account executives, no project coordinators. 
+              You work directly with the people building your solution, which means faster decisions and better results.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-slate-900 text-xl mb-4">Technical Depth</h4>
+            <p class="text-slate-600 leading-relaxed">
+              We don't just move pixels around. We build complex backend systems, integrate APIs, handle data 
+              architecture, and solve the technical challenges that require custom development.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-slate-900 text-xl mb-4">Business-First Approach</h4>
+            <p class="text-slate-600 leading-relaxed">
+              Every technical decision serves your business goals. We focus on solutions that drive revenue, 
+              improve efficiency, or solve real problems for your customers.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-slate-900 text-xl mb-4">Long-Term Partnership</h4>
+            <p class="text-slate-600 leading-relaxed">
+              We build for the future. Clean, maintainable code that can evolve with your business. 
+              Plus, we're here for ongoing support and enhancements as you grow.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Our Process -->
+      <div class="mb-16">
+        <h3 class="font-display text-3xl font-bold text-slate-900 mb-12 text-center">How We Work</h3>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-slate-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+            <h4 class="font-semibold text-slate-900 text-lg mb-3">Discovery & Planning</h4>
+            <p class="text-slate-600">We dig deep into your business requirements and technical constraints to design the right solution.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-slate-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+            <h4 class="font-semibold text-slate-900 text-lg mb-3">Iterative Development</h4>
+            <p class="text-slate-600">Regular check-ins and demos ensure we're building exactly what you need, with room for adjustments.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-slate-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+            <h4 class="font-semibold text-slate-900 text-lg mb-3">Launch & Support</h4>
+            <p class="text-slate-600">Smooth deployment with documentation, training, and ongoing maintenance options.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Section -->
+      <div class="bg-slate-50 rounded-2xl p-8 lg:p-12 mb-16">
+        <h3 class="font-display text-3xl font-bold text-slate-900 mb-8 text-center">Meet the Team</h3>
+        <div class="max-w-3xl mx-auto">
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="flex-shrink-0">
+              <img 
+                src="https://linchpinindustries.s3-us-west-1.amazonaws.com/Images/Headshot+(Liz+Bayardelle)+Square.jpg" 
+                alt="Elizabeth Bayardelle"
+                class="w-32 h-32 rounded-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="text-center md:text-left">
+              <h4 class="font-display text-2xl font-bold text-slate-900 mb-2">Elizabeth Bayardelle</h4>
+              <p class="text-lg text-slate-600 mb-4 font-medium">CTO & Principal</p>
+              <p class="text-slate-600 leading-relaxed mb-4">
+                Elizabeth brings a unique blend of technical expertise and business psychology to every project, 
+                specializing in translating complex technical concepts into practical business solutions.
+              </p>
+              
+              <!-- Timeline -->
+              <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 bg-slate-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div>
+                    <span class="font-semibold text-slate-700">2013:</span>
+                    <span class="text-slate-600">Project manager for digital team at top NYC marketing agency</span>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 bg-slate-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div>
+                    <span class="font-semibold text-slate-700">2014:</span>
+                    <span class="text-slate-600">Started independent consulting, building custom solutions for businesses</span>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 bg-slate-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div>
+                    <span class="font-semibold text-slate-700">2023:</span>
+                    <span class="text-slate-600">Founded AI startup, serving as head of product</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Philosophy -->
+      <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 lg:p-12 text-white mb-16">
+        <h3 class="font-display text-3xl font-bold mb-6 text-center">Our Philosophy</h3>
+        <div class="max-w-3xl mx-auto text-center">
+          <p class="text-xl leading-relaxed mb-6 text-slate-200">
+            "Technology should serve your business goals, not the other way around. Every line of code, every feature, and every design decision should move you closer to solving real problems for real people."
+          </p>
+          <p class="text-lg text-slate-300">
+            This approach has helped dozens of businesses transform their ideas into profitable, scalable solutions that their customers actually want to use.
+          </p>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="text-center">
+        <h3 class="font-display text-3xl font-bold text-slate-900 mb-6">Ready to Get Started?</h3>
+        <p class="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
+          Whether you need a custom web application, want to modernize your existing systems, or have an idea that needs technical validation, let's talk about how we can help.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <%= link_to "See Our Work", projects_path, class: "btn-secondary text-lg px-8 py-4" %>
+          <%= link_to "Schedule a Chat", contact_path, class: "btn-primary text-lg px-8 py-4" %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

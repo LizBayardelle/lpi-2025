@@ -1,0 +1,265 @@
+<% content_for :title, "Custom Web Development Services" %>
+<% content_for :meta_description, "Affordable custom web development for complex projects that require unique functionality. Web apps, iPhone apps, and custom solutions without design firm prices." %>
+
+<!-- Hero Section with Parallax -->
+<section class="services-hero-section relative h-[28rem] md:h-[40rem] flex items-center justify-center">
+  <!-- Background with CSS parallax -->
+  <div class="services-hero-bg"></div>
+
+  <!-- Hero Content -->
+  <div class="services-hero-content relative z-10 container-custom px-4 sm:px-6 lg:px-8 pt-40 pb-32 md:pt-48 md:pb-40">
+    <div class="max-w-4xl text-center mx-auto">
+      <h1 class="font-display text-4xl md:text-6xl font-light leading-tight tracking-tight mb-6 animate-on-scroll text-white">
+        Custom web development<br>
+        <span class="italic">without the crazy prices.</span>
+      </h1>
+      <p class="text-xl text-gray-300 mb-8 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+        You have this cool idea in your head. Maybe it's a quiz that recommends products, or a membership site with weird permission levels, or an app that sorts data in ways that don't exist yet. The problem? Design firms want $50k and off-the-shelf solutions don't fit your needs.
+      </p>
+      <p class="text-xl text-gray-300 mb-12 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+        That's exactly the gap we fill. Custom functionality at a fraction of agency cost.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center animate-on-scroll">
+        <%= link_to "Get My Free Plan", new_rfp_path, class: "btn-primary" %>
+        <%= link_to "See Our Work", "#examples", class: "btn-secondary" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- What We Actually Build -->
+<section class="section-padding bg-gray-50">
+  <div class="container-custom">
+    <div class="max-w-3xl mb-16 text-center mx-auto">
+      <h2 class="font-display text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6 animate-on-scroll">
+        What we actually <span class="italic">build.</span>
+      </h2>
+      <p class="text-lg text-slate-600 animate-on-scroll leading-relaxed">
+        Real projects for real people who needed more than a template could offer.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+      <% [
+        {
+          title: "Custom Web Applications",
+          description: "Interactive dashboards, user portals, data management systems, and anything else that needs to do something specific.",
+          examples: "Study platforms, quiz builders, project management tools"
+        },
+        {
+          title: "E-commerce Beyond Basic",
+          description: "Custom product configurators, complex pricing logic, subscription systems, and checkout flows that actually work how you need them to.",
+          examples: "Wholesale portals, subscription boxes, B2B ordering systems"
+        },
+        {
+          title: "Membership & Community Sites",
+          description: "User registration with custom permissions, content gating, progress tracking, and social features that make sense for your specific use case.",
+          examples: "Learning platforms, fan communities, professional networks"
+        },
+        {
+          title: "iPhone Apps",
+          description: "Native Swift apps that integrate with your web platform or stand alone. App Store submission and ongoing updates included.",
+          examples: "Companion apps, offline tools, mobile-first experiences"
+        },
+      ].each do |service| %>
+        <div class="bg-white p-8 rounded-lg animate-on-scroll">
+          <h3 class="font-display text-2xl font-medium mb-4 text-slate-900 tracking-tight"><%= service[:title] %></h3>
+          <p class="text-slate-600 mb-4 leading-relaxed"><%= service[:description] %></p>
+          <p class="text-sm text-slate-500 italic"><%= service[:examples] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Tech Stack -->
+<section class="section-padding bg-white">
+  <div class="container-custom">
+    <div class="max-w-4xl text-center mx-auto">
+      <h2 class="font-display text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6 animate-on-scroll">
+        The technical <span class="italic">details.</span>
+      </h2>
+      <p class="text-lg text-slate-600 mb-12 animate-on-scroll leading-relaxed">
+        No mysterious black boxes or proprietary systems. Here's exactly what we work with and why.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Web Development Stack -->
+        <div class="animate-on-scroll">
+          <h3 class="font-display text-2xl font-medium mb-6 text-slate-900 tracking-tight">Web Development</h3>
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-medium text-slate-900 mb-2">Frontend</h4>
+              <p class="text-slate-600 text-sm leading-relaxed">HTML/CSS with JavaScript. React when the project calls for it. Tailwind CSS for styling. Everything responsive and accessible.</p>
+            </div>
+            <div>
+              <h4 class="font-medium text-slate-900 mb-2">Backend</h4>
+              <p class="text-slate-600 text-sm leading-relaxed">Ruby on Rails for robust web applications. PostgreSQL database. APIs for connecting your app to other systems.</p>
+            </div>
+            <div>
+              <h4 class="font-medium text-slate-900 mb-2">Hosting & Deployment</h4>
+              <p class="text-slate-600 text-sm leading-relaxed">Heroku for production deployment. SSL certificates, automated backups, and monitoring included.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Development -->
+        <div class="animate-on-scroll">
+          <h3 class="font-display text-2xl font-medium mb-6 text-slate-900 tracking-tight">iPhone Apps</h3>
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-medium text-slate-900 mb-2">Native Development</h4>
+              <p class="text-slate-600 text-sm leading-relaxed">Swift and SwiftUI for modern, performant iOS apps. No cross-platform compromises.</p>
+            </div>
+            <div>
+              <h4 class="font-medium text-slate-900 mb-2">App Store Process</h4>
+              <p class="text-slate-600 text-sm leading-relaxed">Complete submission process, App Store optimization, and ongoing updates handled for you.</p>
+            </div>
+            <div>
+              <h4 class="font-medium text-slate-900 mb-2">Integration</h4>
+              <p class="text-slate-600 text-sm leading-relaxed">Seamless connection with your web platform via APIs. Offline functionality when needed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Options -->
+<section class="section-padding bg-gray-50">
+  <div class="container-custom">
+    <div class="max-w-4xl mx-auto text-center mb-16">
+      <h2 class="font-display text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6 animate-on-scroll">
+        Two ways to <span class="italic">work together.</span>
+      </h2>
+      <p class="text-xl text-slate-600 mb-8 animate-on-scroll leading-relaxed">
+        Whether you know exactly what you need or you're still figuring it out, we've got an approach that works.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <!-- Project-Based Pricing -->
+      <div class="bg-white rounded-xl p-8 shadow-lg animate-on-scroll flex flex-col">
+        <div class="text-center mb-8">
+          <h3 class="font-display text-3xl font-medium mb-4 text-slate-900 tracking-tight">Project-Based</h3>
+          <p class="text-slate-600 leading-relaxed">Perfect when you know what you want to build</p>
+        </div>
+        
+        <div class="space-y-6 mb-8 flex-grow">
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-green-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-slate-600">Fixed price quoted upfront</p>
+          </div>
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-green-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-slate-600">Detailed scope and timeline</p>
+          </div>
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-green-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-slate-600">No hourly billing or surprise costs</p>
+          </div>
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-green-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-slate-600">Best value for defined projects</p>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+          <p class="text-slate-600 text-sm leading-relaxed">
+            <strong>Typical range:</strong> $5,000 - $25,000 depending on complexity. Most projects fall between $8,000 - $15,000.
+          </p>
+        </div>
+
+        <div class="text-center mt-auto">
+          <%= link_to "Get Project Quote", new_rfp_path, class: "btn-primary w-full" %>
+        </div>
+      </div>
+
+      <!-- Hourly Consulting -->
+      <div class="bg-white rounded-xl p-8 shadow-lg animate-on-scroll flex flex-col">
+        <div class="text-center mb-8">
+          <h3 class="font-display text-3xl font-medium mb-4 text-slate-900 tracking-tight">Hourly Consulting</h3>
+          <p class="text-slate-600 leading-relaxed">Great when you're still figuring things out</p>
+        </div>
+        
+        <div class="space-y-6 mb-8 flex-grow">
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-blue-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-slate-600">Flexible scope and timeline</p>
+          </div>
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-blue-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-slate-600">Perfect for strategy and planning</p>
+          </div>
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-blue-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-slate-600">Weekly check-ins and updates</p>
+          </div>
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-blue-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-slate-600">Can transition to project-based</p>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+          <p class="text-slate-600 text-sm leading-relaxed">
+            <strong>Rate:</strong> $150/hour with a 10-hour minimum to start. Most consulting engagements run 20-40 hours total.
+          </p>
+        </div>
+
+        <div class="text-center mt-auto">
+          <%= link_to "Start Consulting", "mailto:hello@linchpinindustries.com?subject=Hourly Consulting Inquiry", class: "btn-secondary w-full" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Note -->
+    <div class="max-w-3xl mx-auto text-center mt-12 animate-on-scroll">
+      <p class="text-slate-600 leading-relaxed mb-6">
+        Not sure which approach fits your project? Let's chat for 30 minutes (free) and figure out the best path forward.
+      </p>
+      <%= link_to "Schedule a Chat", "https://calendly.com/elizabethbayardelle/30min", class: "btn-outline", target: "_blank" %>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-padding bg-slate-900">
+  <div class="container-custom text-center">
+    <h2 class="font-display text-4xl md:text-5xl text-white font-light leading-tight tracking-tight mb-8 animate-on-scroll">
+      Ready to build that thing<br>
+      <span class="italic">you've been imagining?</span>
+    </h2>
+    <p class="text-xl text-slate-400 mb-12 animate-on-scroll max-w-2xl mx-auto">
+      Let's talk about what you want to build. Free consultation, detailed proposal, and no obligation to move forward.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-6 justify-center animate-on-scroll">
+      <%= link_to "Get My Free Plan", new_rfp_path, class: "btn-secondary inline-block" %>
+      <%= link_to "Or just email us →", "mailto:hello@linchpinindustries.com", class: "text-white hover:text-slate-300 transition-colors font-medium py-3 underline-offset-4 hover:underline" %>
+    </div>
+  </div>
+</section>

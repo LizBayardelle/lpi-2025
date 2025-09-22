@@ -1,0 +1,561 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Modern Minimalist Color Palette */
+:root {
+  /* Primary - Deep Ink Blue (trustworthy, professional) */
+  --primary: #0f172a;
+  --primary-hover: #1e293b;
+  
+  /* Accent - Warm Red (subtle, sophisticated) */
+  --accent: #dc2626;
+  --accent-hover: #b91c1c;
+  
+  /* Neutrals */
+  --neutral-900: #0f172a;
+  --neutral-800: #1e293b;
+  --neutral-700: #334155;
+  --neutral-600: #475569;
+  --neutral-500: #64748b;
+  --neutral-400: #94a3b8;
+  --neutral-300: #cbd5e1;
+  --neutral-200: #e2e8f0;
+  --neutral-100: #f1f5f9;
+  --neutral-50: #f8fafc;
+  
+  /* Semantic */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+}
+
+/* Enhanced prose styling for blog content */
+.prose {
+  @apply text-slate-700 leading-relaxed;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Beautiful headers */
+.prose h1 {
+  @apply text-4xl md:text-5xl font-bold text-slate-900 mb-8 mt-12 leading-tight;
+  font-family: 'Cal Sans', 'Inter', sans-serif;
+  letter-spacing: -0.025em;
+}
+
+.prose h2 {
+  @apply text-3xl md:text-4xl font-bold text-slate-900 mb-6 mt-10 leading-tight;
+  font-family: 'Crimson Pro', Georgia, serif;
+  letter-spacing: -0.025em;
+}
+
+.prose h3 {
+  @apply text-xl md:text-2xl font-semibold text-slate-900 mb-4 mt-8 leading-tight;
+  font-family: 'Cal Sans', 'Inter', sans-serif;
+  letter-spacing: -0.025em;
+}
+
+.prose h4 {
+  @apply text-xl md:text-2xl font-semibold text-slate-900 mb-3 mt-6 leading-tight;
+  font-family: 'Cal Sans', 'Inter', sans-serif;
+}
+
+.prose h5 {
+  @apply text-lg md:text-xl font-semibold text-slate-900 mb-3 mt-5 leading-tight;
+  font-family: 'Cal Sans', 'Inter', sans-serif;
+}
+
+.prose h6 {
+  @apply text-base md:text-lg font-semibold text-slate-900 mb-2 mt-4 leading-tight;
+  font-family: 'Cal Sans', 'Inter', sans-serif;
+}
+
+/* Better paragraph spacing */
+.prose p {
+  @apply mb-6 text-lg leading-relaxed text-slate-700;
+}
+
+.prose p:last-child {
+  @apply mb-0;
+}
+
+/* List styling */
+.prose ul {
+  @apply mb-6 pl-6;
+}
+
+.prose ol {
+  @apply mb-6 pl-6;
+}
+
+.prose li {
+  @apply mb-2 text-lg leading-relaxed text-slate-700;
+}
+
+.prose ul > li {
+  @apply relative;
+}
+
+.prose ul > li::before {
+  content: "•";
+  @apply absolute -left-4 text-slate-400 font-bold;
+}
+
+/* Links */
+.prose a {
+  @apply text-slate-900 font-medium underline decoration-slate-300 underline-offset-2 hover:decoration-slate-900 transition-colors;
+}
+
+/* Strong and emphasis */
+.prose strong {
+  @apply font-semibold text-slate-900;
+}
+
+.prose em {
+  @apply italic text-slate-600;
+}
+
+/* Syntax highlighting for code blocks */
+.prose pre {
+  @apply bg-slate-900 text-slate-100 rounded-xl p-6 overflow-x-auto mb-6 text-sm leading-relaxed;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+}
+
+.prose code {
+  @apply bg-slate-100 text-slate-900 px-2 py-1 rounded text-sm font-medium;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+}
+
+.prose pre code {
+  @apply bg-transparent text-slate-100 p-0 text-sm;
+}
+
+/* Better table styling */
+.prose table {
+  @apply w-full border-collapse mb-6 text-base;
+}
+
+.prose th,
+.prose td {
+  @apply border border-slate-200 px-4 py-3 text-left;
+}
+
+.prose th {
+  @apply bg-slate-50 font-semibold text-slate-900;
+}
+
+.prose td {
+  @apply text-slate-700;
+}
+
+/* Blockquotes */
+.prose blockquote {
+  @apply border-l-4 border-slate-200 pl-6 py-2 mb-6 italic text-slate-600 text-lg;
+  font-style: italic;
+}
+
+.prose blockquote p {
+  @apply mb-0 text-lg leading-relaxed;
+}
+
+/* Horizontal rules */
+.prose hr {
+  @apply border-0 border-t border-slate-200 my-12;
+}
+
+/* Custom LPI Components */
+@layer components {
+  /* Modern Minimalist Button Components */
+  .btn-primary {
+    @apply text-white font-medium py-3 px-7 rounded-md transition-all duration-200;
+    background-color: var(--primary);
+    letter-spacing: -0.01em;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-slate-900 font-medium py-3 px-7 rounded-md transition-all duration-200 border border-slate-200;
+    letter-spacing: -0.01em;
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--neutral-50);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  }
+  
+  .btn-ghost {
+    @apply text-slate-900 font-medium py-3 px-7 rounded-md transition-all duration-200;
+    letter-spacing: -0.01em;
+  }
+  
+  .btn-ghost:hover {
+    background-color: var(--neutral-100);
+  }
+  
+  .btn-outline {
+    @apply border font-medium py-3 px-7 rounded-md transition-all duration-200;
+    border-color: var(--primary);
+    color: var(--primary);
+    letter-spacing: -0.01em;
+  }
+  
+  .btn-outline:hover {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  /* Card Components */
+  .card {
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden;
+  }
+  
+  .card-hover {
+    @apply transform hover:-translate-y-2 transition-all duration-300;
+  }
+  
+  /* Hero Section - Clean solution */
+  .hero-section {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
+      url('https://linchpinindustries.s3-us-west-1.amazonaws.com/Images/building-looking-up.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  /* Mobile parallax fix */
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-attachment: scroll;
+    }
+  }
+  
+  .hero-content {
+    @apply relative z-10 flex items-center justify-center min-h-screen text-center text-white;
+  }
+  
+  /* Ensure content sections properly overlay the fixed background */
+  section:not(.hero-section) {
+    position: relative;
+    z-index: 2;
+    background: white;
+  }
+  
+  section.bg-slate-900 {
+    background: rgb(15 23 42);
+  }
+  
+  section.bg-gray-50 {
+    background: rgb(249 250 251);
+  }
+  
+  /* Stop parallax at footer */
+  footer {
+    position: relative;
+    z-index: 3;
+  }
+  
+  /* Services page parallax */
+  .services-hero-section {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .services-hero-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
+      url('https://linchpinindustries.s3-us-west-1.amazonaws.com/Images/planning.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .services-hero-content {
+    @apply relative z-10 flex items-center justify-center text-center text-white;
+    height: 100%;
+  }
+  
+  /* Mobile parallax fix for services */
+  @media (max-width: 768px) {
+    .services-hero-bg {
+      background-attachment: scroll;
+    }
+  }
+  
+  /* Projects page parallax */
+  .projects-hero-section {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .projects-hero-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
+      url('https://linchpinindustries.s3.us-west-1.amazonaws.com/Images/colorful-workplace.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .projects-hero-content {
+    @apply relative z-10 flex items-center justify-center text-center text-white;
+    height: 100%;
+  }
+  
+  /* Mobile parallax fix for projects */
+  @media (max-width: 768px) {
+    .projects-hero-bg {
+      background-attachment: scroll;
+    }
+  }
+  
+  /* Blog page parallax */
+  .blog-hero-section {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .blog-hero-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
+      url('https://linchpinindustries.s3.us-west-1.amazonaws.com/Images/computer-metrics.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .blog-hero-content {
+    @apply relative z-10 flex items-center justify-center text-center text-white;
+    height: 100%;
+  }
+  
+  /* About page parallax */
+  .about-hero-section {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .about-hero-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
+      url('https://linchpinindustries.s3.us-west-1.amazonaws.com/Images/notebook-and-pen.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .about-hero-content {
+    @apply relative z-10 flex items-center justify-center text-center text-white;
+    height: 100%;
+  }
+  
+  /* Contact page parallax */
+  .contact-hero-section {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .contact-hero-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
+      url('https://linchpinindustries.s3.us-west-1.amazonaws.com/Images/web-design.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .contact-hero-content {
+    @apply relative z-10 flex items-center justify-center text-center text-white;
+    height: 100%;
+  }
+  
+  /* Mobile parallax fix for all hero sections */
+  @media (max-width: 768px) {
+    .blog-hero-bg,
+    .about-hero-bg,
+    .contact-hero-bg {
+      background-attachment: scroll;
+    }
+  }
+  
+  /* Form Components */
+  .form-input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200;
+  }
+  
+  .form-input:focus {
+    --tw-ring-color: var(--lpi-red);
+  }
+  
+  .form-textarea {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200;
+    min-height: 8rem;
+  }
+  
+  .form-textarea:focus {
+    --tw-ring-color: var(--lpi-red);
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+  }
+  
+  /* Navigation - Minimalist */
+  .nav-link {
+    @apply text-slate-600 text-sm font-medium transition-colors duration-200;
+    letter-spacing: -0.01em;
+  }
+  
+  .nav-link:hover {
+    @apply text-slate-900;
+  }
+  
+  .nav-link-active {
+    @apply text-slate-900;
+  }
+  
+  /* Utilities */
+  .text-gradient {
+    background: linear-gradient(to right, var(--lpi-red), var(--lpi-red-hover));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .section-padding {
+    @apply py-16 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Display text sizes */
+  .text-display-1 {
+    font-size: 6rem;
+    line-height: 1;
+    font-weight: 900;
+  }
+  
+  .text-display-2 {
+    font-size: 5.5rem;
+    line-height: 1;
+    font-weight: 900;
+  }
+  
+  .text-display-3 {
+    font-size: 4.5rem;
+    line-height: 1.1;
+    font-weight: 900;
+  }
+  
+  .text-display-4 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 900;
+  }
+
+  @media (max-width: 768px) {
+    .text-display-1 { font-size: 3.5rem; }
+    .text-display-2 { font-size: 3rem; }
+    .text-display-3 { font-size: 2.5rem; }
+    .text-display-4 { font-size: 2rem; }
+  }
+}
+
+/* Custom animations for enhanced user experience */
+@layer utilities {
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-in-out;
+  }
+  
+  .animate-on-scroll.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Better parallax implementation */
+  .parallax-container {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+  }
+  
+  .parallax-bg {
+    position: absolute;
+    top: -20%;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    will-change: transform;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  /* Disable parallax on mobile for better performance */
+  @media (max-width: 768px) {
+    .parallax-bg {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      background-attachment: scroll;
+    }
+  }
+}

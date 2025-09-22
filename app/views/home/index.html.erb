@@ -1,0 +1,167 @@
+<% content_for :title, "Turn your pet project into a thriving business" %>
+<% content_for :meta_description, "Linchpin Industries helps entrepreneurs transform their ideas into successful businesses through expert development, design, and strategic consulting." %>
+
+<!-- Hero Section -->
+<section class="hero-section relative min-h-screen flex items-center justify-center">
+  <!-- Background with CSS parallax - no gaps -->
+  <div class="hero-bg"></div>
+
+  <!-- Hero Content -->
+  <div class="hero-content relative z-10 container-custom px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-5xl mx-auto">
+      <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light leading-tighter tracking-tighter mb-8 animate-on-scroll">
+        Turn your pet project<br class="hidden md:block">
+        into a <span class="font-semibold italic">thriving business.</span>
+      </h1>
+      
+      <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12 animate-on-scroll font-light leading-relaxed">
+        We take your cocktail napkin sketches, shower thoughts, and "wouldn't it be cool if" ideas and turn them into real products that real people actually use.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-on-scroll">
+        <%= link_to "See Our Work", "#work", class: "btn-secondary text-base" %>
+        <%= link_to "Get My Free Plan", new_rfp_path, class: "btn-primary text-base" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </div>
+</section>
+
+
+<!-- What We Do Section -->
+<section class="section-padding bg-white" id="what-we-do">
+  <div class="container-custom">
+    <div class="max-w-4xl mb-20">
+      <h2 class="font-display text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6 animate-on-scroll">
+        We build the custom solutions<br>
+        <span class="italic">your business needs.</span>
+      </h2>
+      <p class="text-lg text-slate-600 animate-on-scroll leading-relaxed mb-4">
+        You know that moment when you realize your idea needs custom user dashboards, complex data sorting, or interactive features that off-the-shelf solutions just can't provide? That's exactly when you call us.
+      </p>
+      <p class="text-lg text-slate-600 animate-on-scroll leading-relaxed mb-4">
+        We're the sweet spot between "I can build this myself" and "I need to hire a whole design firm." Think custom quiz platforms, membership sites with weird permissions, interactive study tools, or e-commerce with functionality that doesn't exist in any plugin.
+      </p>
+      <p class="text-lg text-slate-600 animate-on-scroll leading-relaxed">
+        No corporate overhead, no junior developers learning on your budget. Just custom-built solutions that do exactly what you need—and nothing you don't.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Process Section -->
+<section class="section-padding bg-gray-50">
+  <div class="container-custom">
+    <div class="max-w-3xl mb-16">
+      <h2 class="font-display text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6 animate-on-scroll">
+        How this whole thing <span class="italic">works.</span>
+      </h2>
+      <p class="text-xl text-slate-600 animate-on-scroll">
+        No mysterious "proprietary process" here. Just common sense and hard work, organized into digestible chunks.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <% [
+        { 
+          step: "01", 
+          title: "The Brain Dump", 
+          description: "You tell us everything. The vision, the fears, the budget, the deadline. We ask annoying questions. Magic happens." 
+        },
+        { 
+          step: "02", 
+          title: "The Reality Check", 
+          description: "We figure out what's actually possible with your time and money. Spoiler: it's usually more than you think." 
+        },
+        { 
+          step: "03", 
+          title: "The Build", 
+          description: "Heads down, headphones on. We'll surface every few days with updates and way too many screenshots." 
+        },
+        { 
+          step: "04", 
+          title: "The Launch Party", 
+          description: "Your thing is live! We'll help you tell the world, fix the inevitable bugs, and plan what comes next." 
+        }
+      ].each do |process| %>
+        <div class="animate-on-scroll">
+          <div class="text-5xl font-display font-light text-slate-300 mb-4">
+            <%= process[:step] %>
+          </div>
+          <h3 class="text-xl font-medium mb-3 text-slate-900"><%= process[:title] %></h3>
+          <p class="text-slate-600 leading-relaxed"><%= process[:description] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section - Minimalist -->
+<section class="py-32 bg-slate-900" id="work">
+  <div class="container-custom px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-display text-4xl md:text-5xl text-white font-light leading-tight tracking-tight mb-8 animate-on-scroll">
+        Have an idea?<br>
+        <span class="italic">Let's talk about it.</span>
+      </h2>
+      <p class="text-xl text-slate-400 mb-12 animate-on-scroll max-w-2xl">
+        No NDAs, no formal pitch decks, no suit-and-tie meetings. Just tell us what you're excited about and we'll tell you how to make it real. First consultation is free.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-6 animate-on-scroll">
+        <%= link_to "Get My Free Plan", new_rfp_path, class: "btn-secondary inline-block" %>
+        <%= link_to "Or just email us →", "mailto:hello@linchpinindustries.com", class: "text-white hover:text-slate-300 transition-colors font-medium py-3 underline-offset-4 hover:underline" %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recent Work/Blog Section -->
+<section class="section-padding bg-gray-50">
+  <div class="container-custom">
+    <div class="text-center mb-16">
+      <h2 class="font-display text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6 animate-on-scroll">Latest Insights</h2>
+      <p class="text-xl text-gray-600 animate-on-scroll">
+        Learn from our experience turning ideas into successful businesses.
+      </p>
+    </div>
+
+    <!-- Blog Preview Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% 3.times do |i| %>
+        <article class="card card-hover animate-on-scroll">
+          <div class="aspect-w-16 aspect-h-9">
+            <div class="bg-gradient-to-br from-lpi-red-950 to-lpi-red-700 flex items-center justify-center">
+              <span class="text-white text-2xl font-bold">Blog Post <%= i + 1 %></span>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="text-sm text-gray-500 mb-2">Strategy • 5 min read</div>
+            <h3 class="font-display text-xl font-medium mb-3 text-gray-900 tracking-tight">
+              How to Validate Your Business Idea Before Building
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Learn the essential steps to validate your concept and ensure market fit before investing time and money.
+            </p>
+            <a href="#" class="text-lpi-red-950 font-semibold hover:text-lpi-red-700 transition-colors">
+              Read More →
+            </a>
+          </div>
+        </article>
+      <% end %>
+    </div>
+
+    <div class="text-center mt-12 animate-on-scroll">
+      <%= link_to "View All Articles", blogs_path, class: "btn-outline" %>
+    </div>
+  </div>
+</section>
+
+
+
+

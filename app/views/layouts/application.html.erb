@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <title>
+      <%= if content_for?(:title) then yield(:title) + ' | ' end %>
+      Linchpin Industries - Turn your pet project into a thriving business
+    </title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#a21d20">
+    
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Linchpin Industries helps turn ideas and pet projects into thriving businesses. Professional web development, business planning, and digital marketing services.' %>">
+    <meta name="keywords" content="web development, business consulting, digital marketing, startup services, project development">
+    <meta name="author" content="Linchpin Industries">
+i
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#a21d20">
+    <meta name="msapplication-TileColor" content="#ffffff">
+
+    <%= yield :head %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <% if request.path.start_with?('/admin') %>
+      <%= javascript_include_tag "admin", "data-turbo-track": "reload", type: "module" %>
+    <% end %>
+  </head>
+
+  <body class="font-sans antialiased bg-gray-50 text-gray-900">
+    <%= render 'shared/navbar' if content_for?(:show_navbar) != 'false' %>
+    
+    <% if notice %>
+      <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 m-4 rounded">
+        <%= notice %>
+      </div>
+    <% end %>
+    
+    <% if alert %>
+      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 m-4 rounded">
+        <%= alert %>
+      </div>
+    <% end %>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white">
+      <div class="container-custom px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <!-- Company Info -->
+          <div class="md:col-span-2">
+            <div class="flex items-center mb-6">
+              <span class="font-display text-2xl font-medium tracking-tight">Linchpin Industries</span>
+            </div>
+            <p class="text-slate-400 mb-6 max-w-md leading-relaxed">
+              Building custom web solutions tailored to your unique business needs. No corporate overhead, just results.
+            </p>
+            <div class="flex space-x-4">
+              <a href="mailto:hello@linchpinindustries.com" class="text-slate-400 hover:text-white transition-colors">
+                <span class="sr-only">Email</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+                  <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Services -->
+          <div>
+            <h3 class="font-medium mb-4">Services</h3>
+            <ul class="space-y-3 text-slate-400">
+              <li><%= link_to "Custom Web Apps", services_path, class: "hover:text-white transition-colors" %></li>
+              <li><%= link_to "E-commerce Solutions", services_path, class: "hover:text-white transition-colors" %></li>
+              <li><%= link_to "Interactive Platforms", services_path, class: "hover:text-white transition-colors" %></li>
+              <li><%= link_to "API Development", services_path, class: "hover:text-white transition-colors" %></li>
+            </ul>
+          </div>
+
+          <!-- Company -->
+          <div>
+            <h3 class="font-medium mb-4">Company</h3>
+            <ul class="space-y-3 text-slate-400">
+              <li><%= link_to "About", about_path, class: "hover:text-white transition-colors" %></li>
+              <li><%= link_to "Blog", blog_path, class: "hover:text-white transition-colors" %></li>
+              <li><%= link_to "See Our Work", projects_path, class: "hover:text-white transition-colors" %></li>
+              <li><%= link_to "Contact", contact_path, class: "hover:text-white transition-colors" %></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center">
+          <p class="text-slate-400 text-sm">
+            © <%= Date.current.year %> Linchpin Industries. All rights reserved.
+          </p>
+          <div class="flex space-x-6 mt-4 sm:mt-0">
+            <%= link_to "Privacy", privacy_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
+            <%= link_to "Terms", terms_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
+            <% if user_signed_in? && current_user.admin? %>
+              <%= link_to "Admin Dashboard", admin_dashboard_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
+            <% else %>
+              <%= link_to "Login", new_user_session_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <%= yield :additional_js %>
+  </body>
+</html>

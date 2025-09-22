@@ -1,0 +1,185 @@
+<% content_for :title, "Contact Us - Get In Touch" %>
+<% content_for :meta_description, "Get in touch with Linchpin Industries. Let's discuss your custom web development project and turn your idea into reality." %>
+
+<div class="min-h-screen bg-white">
+  <!-- Hero Section with Parallax -->
+  <section class="contact-hero-section relative h-[28rem] md:h-[40rem] flex items-center justify-center">
+    <!-- Background with CSS parallax -->
+    <div class="contact-hero-bg"></div>
+
+    <!-- Hero Content -->
+    <div class="contact-hero-content relative z-10 container-custom px-4 sm:px-6 lg:px-8 pt-40 pb-32 md:pt-48 md:pb-40">
+      <div class="max-w-4xl text-center mx-auto">
+        <h1 class="font-display text-4xl md:text-6xl font-light leading-tight tracking-tight mb-6 animate-on-scroll text-white">
+          Let's build something<br>
+          <span class="italic">amazing together.</span>
+        </h1>
+        <p class="text-xl text-gray-300 mb-8 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+          Got an idea that needs custom functionality? Need something tailored that actually works the way you imagined?
+        </p>
+        <p class="text-lg text-gray-300 mb-12 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+          Let's chat about turning your vision into reality.
+        </p>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="section-padding bg-white">
+    <div class="container-custom">
+      <div class="max-w-3xl mx-auto">
+        
+        <% if notice %>
+          <div class="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg mb-8">
+            <%= notice %>
+          </div>
+        <% end %>
+
+        <% if alert %>
+          <div class="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-lg mb-8">
+            <%= alert %>
+          </div>
+        <% end %>
+
+        <!-- Contact Form -->
+        <div class="bg-slate-50 rounded-xl p-8 md:p-12">
+          <div class="text-center mb-8">
+            <h2 class="font-display text-3xl font-light text-slate-900 mb-4 tracking-tight">
+              Tell us about your project
+            </h2>
+            <p class="text-slate-600">
+              The more details you share, the better we can help. Don't worry about getting it perfect—we're here to figure it out together.
+            </p>
+          </div>
+
+          <%= simple_form_for @message, url: messages_path, html: { class: "space-y-6" } do |f| %>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <%= f.input :name,
+                            required: true,
+                            label: "Your Name",
+                            input_html: { 
+                              class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900"
+                            },
+                            label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                            wrapper_html: { class: "mb-0" },
+                            error_html: { class: "text-red-600 text-sm mt-1" } %>
+              </div>
+              
+              <div>
+                <%= f.input :email,
+                            required: true,
+                            label: "Email Address",
+                            input_html: { 
+                              autocomplete: "email",
+                              class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900"
+                            },
+                            label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                            wrapper_html: { class: "mb-0" },
+                            error_html: { class: "text-red-600 text-sm mt-1" } %>
+              </div>
+            </div>
+
+            <div>
+              <%= f.input :subject,
+                          required: true,
+                          label: "What's this about?",
+                          input_html: { 
+                            class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900",
+                            placeholder: "New project, existing site help, just exploring options..."
+                          },
+                          label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                          wrapper_html: { class: "mb-0" },
+                          error_html: { class: "text-red-600 text-sm mt-1" } %>
+            </div>
+
+            <div>
+              <%= f.input :content,
+                          as: :text,
+                          required: true,
+                          label: "Tell us more",
+                          input_html: { 
+                            class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900",
+                            rows: 6,
+                            placeholder: "What are you trying to build? What problems are you trying to solve? What's not working with your current setup? Don't worry about technical details—just describe your vision."
+                          },
+                          label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                          wrapper_html: { class: "mb-0" },
+                          error_html: { class: "text-red-600 text-sm mt-1" } %>
+            </div>
+
+            <!-- reCAPTCHA -->
+            <div class="flex justify-center">
+              <%= recaptcha_tags %>
+            </div>
+
+            <div class="text-center">
+              <%= f.button :submit, "Send Message", class: "btn-primary text-lg px-8 py-4" %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Alternative Contact Methods -->
+        <div class="mt-12 text-center">
+          <h3 class="font-display text-xl font-medium text-slate-900 mb-6">
+            Prefer to chat directly?
+          </h3>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <%= link_to "Schedule a 30-min Call", "https://calendly.com/elizabethbayardelle/30min", class: "btn-outline", target: "_blank" %>
+            <a href="mailto:hello@linchpinindustries.com" class="btn-secondary">
+              Email Us Directly
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <section class="section-padding bg-slate-900 text-white">
+    <div class="container-custom">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="font-display text-3xl md:text-4xl font-light mb-8 tracking-tight">
+          Why work with us?
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <div class="w-16 h-16 bg-white/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+              </svg>
+            </div>
+            <h3 class="font-medium text-lg mb-2">Transparent Pricing</h3>
+            <p class="text-slate-400 text-sm">No surprise costs or scope creep. We'll give you a clear estimate upfront.</p>
+          </div>
+          <div>
+            <div class="w-16 h-16 bg-white/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h3 class="font-medium text-lg mb-2">Fast Delivery</h3>
+            <p class="text-slate-400 text-sm">We move quickly. Most projects launch in weeks, not months.</p>
+          </div>
+          <div>
+            <div class="w-16 h-16 bg-white/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="font-medium text-lg mb-2">It Actually Works</h3>
+            <p class="text-slate-400 text-sm">Built to your exact specs, not adapted from someone else's template.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

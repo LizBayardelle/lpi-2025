@@ -1,0 +1,177 @@
+<% content_for :title, "#{@project.name} - Case Study" %>
+<% content_for :meta_description, @project.short_description %>
+
+<div class="min-h-screen bg-white">
+  <!-- Hero Section with Project Image -->
+  <section class="relative h-[60vh] md:h-[70vh] overflow-hidden">
+    <% if @project.image.attached? %>
+      <div class="absolute inset-0">
+        <%= image_tag @project.image, 
+            alt: @project.name, 
+            class: "w-full h-full object-cover",
+            style: "object-position: center" %>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+      </div>
+    <% else %>
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900"></div>
+    <% end %>
+
+    <!-- Back Button -->
+    <div class="absolute top-24 left-8 z-20">
+      <%= link_to projects_path, class: "inline-flex items-center text-white/90 hover:text-white transition-colors bg-black/20 backdrop-blur-sm rounded-lg px-4 py-2" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Work
+      <% end %>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 h-full flex items-center justify-center">
+      <div class="container-custom px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-4xl mx-auto">
+          <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-light text-white mb-8 leading-tight tracking-tight">
+            <%= @project.name %>
+          </h1>
+          <blockquote class="text-xl md:text-2xl text-white/90 italic leading-relaxed max-w-3xl mx-auto">
+            "<%= @project.short_description %>"
+          </blockquote>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Project Details -->
+  <section class="section-padding bg-white">
+    <div class="container-custom">
+      <div class="max-w-4xl mx-auto">
+        
+        <!-- Challenge & Solution -->
+        <div class="prose prose-lg prose-slate max-w-none mb-12">
+          <h2 class="font-display text-3xl md:text-4xl font-light text-slate-900 mb-8 tracking-tight text-center">
+            The Challenge
+          </h2>
+          
+          <div class="text-slate-700 leading-relaxed text-lg space-y-6">
+            <%= simple_format(@project.long_description, {}, wrapper_tag: "div") %>
+          </div>
+        </div>
+
+        <!-- Technical Details -->
+        <div class="bg-slate-50 rounded-xl p-8 md:p-12 mb-12">
+          <h3 class="font-display text-2xl font-medium text-slate-900 mb-6 text-center">
+            How We Built It
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div class="w-16 h-16 bg-slate-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                </svg>
+              </div>
+              <h4 class="font-medium text-slate-900 mb-2">Custom Development</h4>
+              <p class="text-slate-600 text-sm">Built from scratch with modern technologies tailored to exact requirements.</p>
+            </div>
+            <div>
+              <div class="w-16 h-16 bg-slate-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <h4 class="font-medium text-slate-900 mb-2">Performance First</h4>
+              <p class="text-slate-600 text-sm">Optimized for speed and user experience across all devices.</p>
+            </div>
+            <div>
+              <div class="w-16 h-16 bg-slate-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h4 class="font-medium text-slate-900 mb-2">Scalable Solution</h4>
+              <p class="text-slate-600 text-sm">Built to grow with the business and handle increasing demands.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="text-center">
+          <div class="space-y-6">
+            <%= link_to @project.url, 
+                target: "_blank", 
+                rel: "noopener",
+                class: "inline-flex items-center btn-primary text-lg px-8 py-4" do %>
+              Visit Live Site
+              <svg class="ml-3 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            <% end %>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+              <%= link_to "Get Your Free Plan", new_rfp_path, class: "btn-secondary" %>
+              <%= link_to "Schedule a Chat", "https://calendly.com/elizabethbayardelle/30min", class: "btn-outline", target: "_blank" %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Projects -->
+  <section class="section-padding bg-slate-50">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-3xl md:text-4xl font-light text-slate-900 mb-4 tracking-tight">
+          More Success Stories
+        </h2>
+        <p class="text-slate-600 max-w-2xl mx-auto">
+          See how we've helped other clients turn their ideas into thriving digital solutions.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <% Project.published.where.not(id: @project.id).limit(3).each do |related_project| %>
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
+            <div class="aspect-w-16 aspect-h-9 bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+              <% if related_project.image.attached? %>
+                <%= image_tag related_project.image, alt: related_project.name, class: "w-full h-full object-cover" %>
+              <% else %>
+                <div class="text-center p-8">
+                  <div class="w-16 h-16 bg-slate-300 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                    </svg>
+                  </div>
+                  <p class="text-slate-500 font-medium"><%= related_project.name %></p>
+                </div>
+              <% end %>
+            </div>
+            
+            <div class="p-6">
+              <h3 class="font-display text-xl font-medium mb-3 text-slate-900 tracking-tight group-hover:text-slate-600 transition-colors">
+                <%= link_to related_project.name, project_path(related_project), class: "hover:underline" %>
+              </h3>
+              <p class="text-slate-600 mb-4 leading-relaxed italic text-sm">
+                "<%= truncate(related_project.short_description, length: 80) %>"
+              </p>
+              
+              <%= link_to project_path(related_project), class: "inline-flex items-center text-sm font-medium text-slate-900 hover:text-slate-600 transition-colors" do %>
+                Read Case Study
+                <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>

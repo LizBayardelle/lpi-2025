@@ -1,0 +1,144 @@
+<% content_for :title, "See Our Work - Custom Web Development Projects" %>
+<% content_for :meta_description, "Real projects we've built for real clients who needed custom functionality beyond templates. Unique solutions without design firm prices." %>
+
+<!-- Hero Section with Parallax -->
+<section class="projects-hero-section relative h-[28rem] md:h-[40rem] flex items-center justify-center">
+  <!-- Background with CSS parallax -->
+  <div class="projects-hero-bg"></div>
+
+  <!-- Hero Content -->
+  <div class="projects-hero-content relative z-10 container-custom px-4 sm:px-6 lg:px-8 pt-40 pb-32 md:pt-48 md:pb-40">
+    <div class="max-w-4xl text-center mx-auto">
+      <h1 class="font-display text-4xl md:text-6xl font-light leading-tight tracking-tight mb-6 animate-on-scroll text-white">
+        Real projects for<br>
+        <span class="italic">real people.</span>
+      </h1>
+      <p class="text-xl text-gray-300 mb-8 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+        Every thriving business started as someone's "wouldn't it be cool if" idea. Here are some of the ideas we've helped turn into actual websites and apps that actual people use.
+      </p>
+      <p class="text-lg text-gray-300 mb-12 animate-on-scroll leading-relaxed max-w-3xl mx-auto">
+        No corporate fluff, no impossible timelines, no surprise costs. Just custom solutions that do exactly what our clients needed—without the big agency price tag.
+      </p>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="section-padding bg-gray-50">
+  <div class="container-custom">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @projects.each do |project| %>
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 animate-on-scroll group">
+          <!-- Project Image Placeholder -->
+          <div class="aspect-w-16 aspect-h-9 bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+            <% if project.image.attached? %>
+              <%= image_tag project.image, alt: project.name, class: "w-full h-full object-cover" %>
+            <% else %>
+              <div class="text-center p-8">
+                <div class="w-16 h-16 bg-slate-300 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                  <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                  </svg>
+                </div>
+                <p class="text-slate-500 font-medium"><%= project.name %></p>
+              </div>
+            <% end %>
+          </div>
+          
+          <!-- Project Content -->
+          <div class="p-6">
+            <h3 class="font-display text-xl font-medium mb-3 text-slate-900 tracking-tight group-hover:text-slate-600 transition-colors">
+              <%= link_to project.name, project_path(project), class: "hover:underline" %>
+            </h3>
+            <p class="text-slate-600 mb-4 leading-relaxed italic">
+              "<%= project.short_description %>"
+            </p>
+            <p class="text-sm text-slate-700 mb-6 leading-relaxed">
+              <%= project.what_special %>
+            </p>
+            
+            <div class="flex items-center justify-between">
+              <%= link_to project_path(project), class: "inline-flex items-center text-sm font-medium text-slate-900 hover:text-slate-600 transition-colors" do %>
+                Read Case Study
+                <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              <% end %>
+              <%= link_to project.url, target: "_blank", rel: "noopener", class: "inline-flex items-center text-sm text-slate-600 hover:text-slate-900 transition-colors" do %>
+                Visit Site
+                <svg class="ml-2 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Value Proposition -->
+<section class="section-padding bg-white">
+  <div class="container-custom">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="font-display text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6 animate-on-scroll">
+        Why clients choose us over<br>
+        <span class="italic">the big agencies.</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div class="animate-on-scroll">
+          <div class="w-16 h-16 bg-slate-100 rounded-lg mx-auto mb-6 flex items-center justify-center">
+            <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-medium mb-3 text-slate-900 tracking-tight">Honest Pricing</h3>
+          <p class="text-slate-600 leading-relaxed">No $50k+ quotes for simple projects. We price based on value, not office overhead.</p>
+        </div>
+        <div class="animate-on-scroll">
+          <div class="w-16 h-16 bg-slate-100 rounded-lg mx-auto mb-6 flex items-center justify-center">
+            <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-medium mb-3 text-slate-900 tracking-tight">Lightning Fast</h3>
+          <p class="text-slate-600 leading-relaxed">No committees, no red tape. From idea to launch in weeks, not months.</p>
+        </div>
+        <div class="animate-on-scroll">
+          <div class="w-16 h-16 bg-slate-100 rounded-lg mx-auto mb-6 flex items-center justify-center">
+            <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-medium mb-3 text-slate-900 tracking-tight">Custom Solutions</h3>
+          <p class="text-slate-600 leading-relaxed">Built exactly for your needs, not adapted from someone else's template.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section-padding bg-slate-900">
+  <div class="container-custom text-center">
+    <h2 class="font-display text-4xl md:text-5xl text-white font-light leading-tight tracking-tight mb-8 animate-on-scroll">
+      Ready to build something<br>
+      <span class="italic">that actually works?</span>
+    </h2>
+    <p class="text-xl text-slate-400 mb-12 animate-on-scroll max-w-2xl mx-auto">
+      Stop compromising on functionality because of platform limitations. Let's build exactly what you need.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-6 justify-center animate-on-scroll">
+      <%= link_to "Get My Free Plan", new_rfp_path, class: "btn-secondary inline-block" %>
+      <%= link_to "Schedule a Chat", "https://calendly.com/elizabethbayardelle/30min", class: "text-white hover:text-slate-300 transition-colors font-medium py-3 underline-offset-4 hover:underline", target: "_blank" %>
+    </div>
+  </div>
+</section>

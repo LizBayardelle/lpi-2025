@@ -1,0 +1,123 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md transition-all duration-300" data-navbar>
+  <div class="container-custom">
+    <div class="flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
+      <!-- Logo - Minimalist Typography -->
+      <%= link_to root_path, class: "flex items-center" do %>
+        <span class="font-display text-2xl font-medium text-slate-900 tracking-tight">Linchpin Industries</span>
+      <% end %>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <%= link_to "Services", services_path, class: "nav-link", data: { nav_link: true } %>
+        <%= link_to "See Our Work", projects_path, class: "nav-link", data: { nav_link: true } %>
+        <%= link_to "Blog", blog_path, class: "nav-link", data: { nav_link: true } %>
+        <%= link_to "About", about_path, class: "nav-link", data: { nav_link: true } %>
+        <%= link_to "Contact", contact_path, class: "nav-link", data: { nav_link: true } %>
+        <% if user_signed_in? && current_user.admin? %>
+          <%= link_to "Admin", admin_dashboard_path, class: "nav-link", data: { nav_link: true } %>
+        <% end %>
+        
+        <!-- CTA Buttons -->
+        <div class="flex items-center space-x-4 ml-8">
+          <%= link_to "Free Proposal", new_rfp_path, class: "btn-primary" %>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden relative w-6 h-6 focus:outline-none" data-menu-toggle>
+        <span class="sr-only">Open main menu</span>
+        <div class="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span class="block absolute h-0.5 w-5 bg-gray-900 transform transition duration-300 ease-in-out" style="top: -6px;"></span>
+          <span class="block absolute h-0.5 w-5 bg-gray-900 transform transition duration-300 ease-in-out"></span>
+          <span class="block absolute h-0.5 w-5 bg-gray-900 transform transition duration-300 ease-in-out" style="top: 6px;"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="fixed inset-0 bg-black bg-opacity-50 z-40 opacity-0 invisible transition-all duration-300" data-menu-overlay></div>
+
+  <!-- Mobile Menu -->
+  <div class="fixed top-0 right-0 h-full w-80 bg-white z-50 transform translate-x-full transition-transform duration-300 ease-in-out shadow-xl" data-mobile-menu>
+    <div class="flex flex-col h-full">
+      <!-- Mobile Menu Header -->
+      <div class="flex items-center justify-between p-6 border-b border-gray-200">
+        <span class="text-xl font-bold text-gray-900">Menu</span>
+        <button class="w-6 h-6 text-gray-400 hover:text-gray-600" data-menu-toggle>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Links -->
+      <div class="flex-1 px-6 py-8">
+        <div class="space-y-6">
+          <%= link_to "Services", services_path, class: "block text-lg font-medium text-gray-900 hover:text-lpi-red-950 transition-colors" %>
+          <%= link_to "See Our Work", projects_path, class: "block text-lg font-medium text-gray-900 hover:text-lpi-red-950 transition-colors" %>
+          <%= link_to "Blog", blog_path, class: "block text-lg font-medium text-gray-900 hover:text-lpi-red-950 transition-colors" %>
+          <%= link_to "About", about_path, class: "block text-lg font-medium text-gray-900 hover:text-lpi-red-950 transition-colors" %>
+          <%= link_to "Contact", contact_path, class: "block text-lg font-medium text-gray-900 hover:text-lpi-red-950 transition-colors" %>
+          <% if user_signed_in? && current_user.admin? %>
+            <%= link_to "Admin", admin_dashboard_path, class: "block text-lg font-medium text-gray-900 hover:text-lpi-red-950 transition-colors" %>
+          <% end %>
+        </div>
+
+        <!-- Mobile CTA -->
+        <div class="mt-8 space-y-4">
+          <%= link_to "Free Proposal", new_rfp_path, class: "block w-full btn-primary text-center" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Enhanced navbar scroll effects */
+  [data-navbar] {
+    backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid transparent;
+  }
+  
+  [data-navbar].scrolled {
+    background-color: rgba(71, 85, 105, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  [data-navbar].scrolled .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  [data-navbar].scrolled .nav-link:hover {
+    color: white;
+  }
+  
+  [data-navbar].scrolled .font-display {
+    color: white;
+  }
+
+  /* Mobile menu animations */
+  [data-mobile-menu].active {
+    transform: translateX(0);
+  }
+  
+  [data-menu-overlay].active {
+    @apply opacity-100 visible;
+  }
+
+  /* Hamburger animation */
+  [data-menu-toggle].active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  [data-menu-toggle].active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  [data-menu-toggle].active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+</style>
