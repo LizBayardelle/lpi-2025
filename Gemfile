@@ -30,7 +30,7 @@ gem "bcrypt", "~> 3.1.7"
 
 # Modern LPI app dependencies
 gem "devise"
-gem "friendly_id", "~> 5.5"
+gem "friendly_id", "~> 5.6"
 gem "image_processing", "~> 1.2"
 gem "simple_form"
 gem "kaminari"
