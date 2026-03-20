@@ -40,6 +40,8 @@ Rails.application.routes.draw do
   resources :contacts, only: [:new, :create]
   resources :messages, only: [:create]
   resources :subscribers, only: [:create]
+  resources :testimonials, only: [:new, :create], path: "feedback"
+  get "feedback", to: "testimonials#new"
 
   # Admin routes
   get "admin", to: "admin#index", as: :admin_dashboard
@@ -48,5 +50,6 @@ Rails.application.routes.draw do
     resources :projects, only: [:index, :show, :create, :update, :destroy]
     resources :messages, only: [:index, :show, :update, :destroy]
     resources :blog_posts, only: [:index, :show, :create, :update, :destroy]
+    resources :testimonials, only: [:index, :show, :create, :update, :destroy]
   end
 end

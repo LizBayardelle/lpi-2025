@@ -9,10 +9,6 @@ class User < ApplicationRecord
   has_many :resources, dependent: :destroy
   has_many :rfps, dependent: :destroy
 
-  # Validations
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-
   # Scopes
   scope :admins, -> { where(admin: true) }
   scope :contributors, -> { where(contributor: true) }

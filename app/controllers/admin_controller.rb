@@ -7,6 +7,7 @@ class AdminController < ApplicationController
     @messages = Message.recent.limit(50)
     @blog_posts = BlogPost.all.order(created_at: :desc)
     @proposal_requests = ProposalRequest.recent.limit(50)
+    @testimonials = Testimonial.all.includes(photos_attachments: :blob).order(created_at: :desc)
   end
 
   private

@@ -43,17 +43,31 @@ i
   <body class="font-sans antialiased bg-gray-50 text-gray-900">
     <%= render 'shared/navbar' if content_for?(:show_navbar) != 'false' %>
     
-    <% if notice %>
-      <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 m-4 rounded">
-        <%= notice %>
-      </div>
-    <% end %>
-    
-    <% if alert %>
-      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 m-4 rounded">
-        <%= alert %>
-      </div>
-    <% end %>
+    <!-- Flash Toasts -->
+    <div id="flash-container" class="fixed top-24 right-4 z-[60] flex flex-col gap-3 max-w-sm w-full pointer-events-none">
+      <% flash.each do |type, message| %>
+        <% next if message.blank? %>
+        <% is_notice = %w[notice success].include?(type) %>
+        <div class="flash-toast pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-lg shadow-lg border backdrop-blur-sm
+          <%= is_notice ? 'bg-emerald-50/95 border-emerald-200 text-emerald-800' : 'bg-red-50/95 border-red-200 text-red-800' %>"
+          role="alert"
+          data-flash-toast>
+          <svg class="w-5 h-5 mt-0.5 shrink-0 <%= is_notice ? 'text-emerald-500' : 'text-red-500' %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <% if is_notice %>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            <% else %>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            <% end %>
+          </svg>
+          <p class="text-sm font-medium flex-1"><%= message %></p>
+          <button onclick="this.closest('[data-flash-toast]').remove()" class="shrink-0 <%= is_notice ? 'text-emerald-400 hover:text-emerald-600' : 'text-red-400 hover:text-red-600' %> transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      <% end %>
+    </div>
 
     <main>
       <%= yield %>
@@ -71,6 +85,7 @@ i
             <p class="text-slate-400 mb-6 max-w-md leading-relaxed">
               Building custom web solutions tailored to your unique business needs. No corporate overhead, just results.
             </p>
+            <%= link_to "Share Your Experience", feedback_path, class: "inline-block text-sm mb-6 font-medium py-2.5 px-6 rounded-md bg-white text-slate-900 hover:bg-slate-200 transition-all duration-200" %>
             <div class="flex space-x-4">
               <a href="mailto:hello@linchpinindustries.com" class="text-slate-400 hover:text-white transition-colors">
                 <span class="sr-only">Email</span>
@@ -113,8 +128,11 @@ i
           <div class="flex space-x-6 mt-4 sm:mt-0">
             <%= link_to "Privacy", privacy_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
             <%= link_to "Terms", terms_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
-            <% if user_signed_in? && current_user.admin? %>
-              <%= link_to "Admin Dashboard", admin_dashboard_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
+            <% if user_signed_in? %>
+              <% if current_user.admin? %>
+                <%= link_to "Admin Dashboard", admin_dashboard_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
+              <% end %>
+              <%= link_to "My Account", edit_user_registration_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
             <% else %>
               <%= link_to "Login", new_user_session_path, class: "text-slate-400 hover:text-white text-sm transition-colors" %>
             <% end %>

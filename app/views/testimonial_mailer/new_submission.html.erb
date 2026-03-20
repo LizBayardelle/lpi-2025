@@ -1,0 +1,39 @@
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h2 style="color: #0f172a; font-size: 24px; margin-bottom: 8px;">New Client Feedback</h2>
+  <p style="color: #64748b; font-size: 14px; margin-bottom: 24px;">A new submission is waiting for your review.</p>
+
+  <div style="background-color: #f8fafc; border-radius: 8px; padding: 24px; margin-bottom: 24px;">
+    <div style="margin-bottom: 16px;">
+      <strong style="color: #0f172a;"><%= @testimonial.name %></strong>
+      <% if @testimonial.title.present? || @testimonial.company.present? %>
+        <br><span style="color: #64748b; font-size: 14px;"><%= [@testimonial.title, @testimonial.company].compact_blank.join(', ') %></span>
+      <% end %>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <% @testimonial.rating.times do %><span style="color: #f59e0b;">&#9733;</span><% end %><% (5 - @testimonial.rating).times do %><span style="color: #e2e8f0;">&#9733;</span><% end %>
+    </div>
+
+    <blockquote style="border-left: 3px solid #dc2626; padding-left: 16px; margin: 0; color: #475569; font-style: italic;">
+      <%= @testimonial.blurb %>
+    </blockquote>
+
+    <% if @testimonial.website_url.present? %>
+      <p style="margin-top: 12px; font-size: 14px;">
+        <strong>Project:</strong> <a href="<%= @testimonial.website_url %>" style="color: #dc2626;"><%= @testimonial.website_url %></a>
+      </p>
+    <% end %>
+
+    <% if @testimonial.photos.attached? %>
+      <p style="margin-top: 12px; font-size: 14px; color: #64748b;">
+        <%= @testimonial.photos.count %> photo(s) attached
+      </p>
+    <% end %>
+  </div>
+
+  <p style="font-size: 14px; color: #64748b;">
+    This feedback is hidden by default. To approve it, head to the
+    <a href="<%= admin_dashboard_url(tab: 'testimonials') %>" style="color: #dc2626;">Admin Dashboard &rarr; Testimonials</a>
+    and toggle it to visible.
+  </p>
+</div>

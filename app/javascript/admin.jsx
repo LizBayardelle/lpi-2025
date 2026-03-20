@@ -1446,6 +1446,355 @@ function ProposalDetail({ proposal, onStatusUpdate, onNotesUpdate, onDelete, get
   );
 }
 
+// ==================== TESTIMONIAL MANAGER ====================
+
+function TestimonialManager() {
+  const [testimonials, setTestimonials] = useState([]);
+  const [editingTestimonial, setEditingTestimonial] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (window.adminData?.testimonials) {
+      setTestimonials(window.adminData.testimonials);
+      setLoading(false);
+    }
+  }, []);
+
+  const handleSave = async (data) => {
+    try {
+      const formData = new FormData();
+      Object.keys(data).forEach(key => {
+        if (key === 'photos') {
+          if (data.photos && data.photos.length > 0) {
+            Array.from(data.photos).forEach(file => {
+              formData.append('testimonial[photos][]', file);
+            });
+          }
+        } else if (data[key] !== null && data[key] !== undefined) {
+          formData.append(`testimonial[${key}]`, data[key]);
+        }
+      });
+
+      const url = editingTestimonial
+        ? `/admin/testimonials/${editingTestimonial.id}`
+        : '/admin/testimonials';
+
+      const method = editingTestimonial ? 'PATCH' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'X-CSRF-Token': window.adminData.csrfToken
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        const saved = await response.json();
+        if (editingTestimonial) {
+          setTestimonials(testimonials.map(t => t.id === editingTestimonial.id ? saved : t));
+        } else {
+          setTestimonials([saved, ...testimonials]);
+        }
+        setEditingTestimonial(null);
+        setShowForm(false);
+      } else {
+        alert('Error saving testimonial');
+      }
+    } catch (error) {
+      console.error('Error saving testimonial:', error);
+      alert('Error saving testimonial');
+    }
+  };
+
+  const handleDelete = async (testimonial) => {
+    if (!confirm('Are you sure you want to delete this testimonial?')) return;
+
+    try {
+      const response = await fetch(`/admin/testimonials/${testimonial.id}`, {
+        method: 'DELETE',
+        headers: { 'X-CSRF-Token': window.adminData.csrfToken }
+      });
+
+      if (response.ok) {
+        setTestimonials(testimonials.filter(t => t.id !== testimonial.id));
+      } else {
+        alert('Error deleting testimonial');
+      }
+    } catch (error) {
+      console.error('Error deleting testimonial:', error);
+      alert('Error deleting testimonial');
+    }
+  };
+
+  const handleToggleVisibility = async (testimonial) => {
+    try {
+      const formData = new FormData();
+      formData.append('testimonial[visible]', !testimonial.visible);
+
+      const response = await fetch(`/admin/testimonials/${testimonial.id}`, {
+        method: 'PATCH',
+        headers: { 'X-CSRF-Token': window.adminData.csrfToken },
+        body: formData
+      });
+
+      if (response.ok) {
+        const updated = await response.json();
+        setTestimonials(testimonials.map(t => t.id === testimonial.id ? updated : t));
+      }
+    } catch (error) {
+      console.error('Error toggling visibility:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 mx-auto mb-4"></div>
+        <p className="text-slate-500">Loading testimonials...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="font-display text-2xl font-medium text-slate-900">
+          Manage Testimonials
+        </h2>
+        <button
+          onClick={() => { setEditingTestimonial(null); setShowForm(true); }}
+          className="btn-primary"
+        >
+          Add Testimonial
+        </button>
+      </div>
+
+      {showForm && (
+        <TestimonialForm
+          testimonial={editingTestimonial}
+          onSave={handleSave}
+          onCancel={() => { setShowForm(false); setEditingTestimonial(null); }}
+        />
+      )}
+
+      {testimonials.length === 0 ? (
+        <div className="text-center py-12 text-slate-500">
+          <p className="text-lg mb-2">No testimonials yet</p>
+          <p className="text-sm">Add one manually or wait for client submissions.</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {testimonials.map(testimonial => (
+            <TestimonialCard
+              key={testimonial.id}
+              testimonial={testimonial}
+              onEdit={(t) => { setEditingTestimonial(t); setShowForm(true); }}
+              onDelete={handleDelete}
+              onToggleVisibility={handleToggleVisibility}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TestimonialCard({ testimonial, onEdit, onDelete, onToggleVisibility }) {
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    stars.push(
+      <svg key={i} className={`w-4 h-4 ${i < testimonial.rating ? 'text-amber-400' : 'text-slate-200'}`} fill="currentColor" viewBox="0 0 20 20">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    );
+  }
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    });
+  };
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-start gap-4">
+        {/* Photo or placeholder */}
+        <div className="flex-shrink-0">
+          {testimonial.photo_urls && testimonial.photo_urls.length > 0 ? (
+            <img src={testimonial.photo_urls[0]} alt="" className="w-16 h-16 object-cover rounded-full shadow-md" />
+          ) : (
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center">
+              <svg className="w-7 h-7 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-3 mb-1">
+            <h3 className="font-display text-lg font-medium text-slate-900 truncate">
+              {testimonial.name}
+            </h3>
+            <div className="flex">{stars}</div>
+          </div>
+          {(testimonial.title || testimonial.company) && (
+            <p className="text-sm text-slate-500 mb-2">
+              {[testimonial.title, testimonial.company].filter(Boolean).join(', ')}
+            </p>
+          )}
+          <p className="text-slate-600 italic line-clamp-2 mb-3">"{testimonial.blurb}"</p>
+          <div className="flex items-center gap-3 text-sm">
+            <button
+              onClick={() => onToggleVisibility(testimonial)}
+              className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                testimonial.visible
+                  ? 'bg-slate-900 text-white hover:bg-slate-700'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >
+              {testimonial.visible ? 'Visible' : 'Hidden'}
+            </button>
+            {testimonial.website_url && (
+              <a href={testimonial.website_url} target="_blank" rel="noopener" className="text-red-600 hover:text-red-800">
+                View project &rarr;
+              </a>
+            )}
+            {testimonial.photo_urls && testimonial.photo_urls.length > 1 && (
+              <span className="text-slate-400">{testimonial.photo_urls.length} photos</span>
+            )}
+            <span className="text-slate-400">Submitted {formatDate(testimonial.created_at)}</span>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex-shrink-0 flex flex-col space-y-2">
+          <button
+            onClick={() => onEdit(testimonial)}
+            className="text-sm text-slate-700 hover:text-white px-4 py-2 border border-slate-300 rounded hover:bg-slate-900 transition-colors whitespace-nowrap"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => onDelete(testimonial)}
+            className="text-sm text-red-600 hover:text-white px-4 py-2 border border-red-300 rounded hover:bg-red-600 transition-colors whitespace-nowrap"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TestimonialForm({ testimonial, onSave, onCancel }) {
+  const [formData, setFormData] = useState({
+    name: testimonial?.name || '',
+    company: testimonial?.company || '',
+    title: testimonial?.title || '',
+    blurb: testimonial?.blurb || '',
+    rating: testimonial?.rating || 5,
+    website_url: testimonial?.website_url || '',
+    visible: testimonial?.visible || false,
+    position: testimonial?.position || '',
+    photos: null
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : type === 'file' ? files : value
+    }));
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="bg-slate-50 p-6 rounded-lg mb-6">
+      <h3 className="font-display text-lg font-medium text-slate-900 mb-4">
+        {testimonial ? 'Edit Testimonial' : 'Add Testimonial'}
+      </h3>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="form-label">Name *</label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} required className="form-input" />
+        </div>
+        <div>
+          <label className="form-label">Company</label>
+          <input type="text" name="company" value={formData.company} onChange={handleChange} className="form-input" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+          <label className="form-label">Title / Role</label>
+          <input type="text" name="title" value={formData.title} onChange={handleChange} className="form-input" />
+        </div>
+        <div>
+          <label className="form-label">Website / Project URL</label>
+          <input type="url" name="website_url" value={formData.website_url} onChange={handleChange} className="form-input" placeholder="https://" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+          <label className="form-label">Rating</label>
+          <select name="rating" value={formData.rating} onChange={handleChange} className="form-input">
+            {[5,4,3,2,1].map(n => (
+              <option key={n} value={n}>{'★'.repeat(n)}{'☆'.repeat(5-n)} ({n})</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="form-label">Display Position</label>
+          <input type="number" name="position" value={formData.position} onChange={handleChange} className="form-input" placeholder="Lower = first (optional)" />
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <label className="form-label">Testimonial *</label>
+        <textarea name="blurb" value={formData.blurb} onChange={handleChange} required className="form-textarea" rows="4" placeholder="What the client said..." />
+      </div>
+
+      <div className="mt-4">
+        <label className="form-label">Photos</label>
+        <input type="file" name="photos" onChange={handleChange} accept="image/*" multiple className="form-input" />
+        {testimonial?.photo_urls && testimonial.photo_urls.length > 0 && (
+          <div className="flex gap-2 mt-2">
+            {testimonial.photo_urls.map((url, i) => (
+              <img key={i} src={url} alt="" className="w-16 h-16 object-cover rounded-lg border border-slate-200" />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-4">
+        <label className="flex items-center">
+          <input type="checkbox" name="visible" checked={formData.visible} onChange={handleChange} className="mr-2" />
+          <span className="text-sm text-slate-700">Visible on site</span>
+        </label>
+      </div>
+
+      <div className="flex space-x-3 mt-6">
+        <button type="submit" className="btn-primary">
+          {testimonial ? 'Update Testimonial' : 'Create Testimonial'}
+        </button>
+        <button type="button" onClick={onCancel} className="btn-secondary">
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+}
+
 // Initialize the React components when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   const projectsContainer = document.getElementById('admin-projects-manager');
@@ -1470,6 +1819,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (proposalContainer && window.adminData) {
     const root = createRoot(proposalContainer);
     root.render(<ProposalManager />);
+  }
+
+  const testimonialContainer = document.getElementById('admin-testimonials-manager');
+  if (testimonialContainer && window.adminData) {
+    const root = createRoot(testimonialContainer);
+    root.render(<TestimonialManager />);
   }
 });
 

@@ -1,35 +1,158 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<% content_for :title, "My Account - Linchpin Industries" %>
+<% content_for :show_navbar, 'false' %>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-lg w-full">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <%= link_to root_path, class: "inline-block mb-6" do %>
+        <span class="font-display text-3xl font-medium text-slate-900 tracking-tight">Linchpin Industries</span>
+      <% end %>
+      <h2 class="font-display text-2xl font-light text-slate-900 mb-2">
+        My Account
+      </h2>
+      <p class="text-slate-600">
+        Update your profile and settings
+      </p>
+    </div>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
+    <!-- Profile Form -->
+    <div class="bg-white rounded-xl shadow-lg p-8">
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-    <% end %>
+        <% if resource.errors.any? %>
+          <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+            <p class="text-red-800 text-sm font-medium mb-2">Please fix the following:</p>
+            <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
+              <% resource.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-    <%= f.input :password,
-                hint: "leave it blank if you don't want to change it",
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :current_password,
-                hint: "we need your current password to confirm your changes",
-                required: true,
-                input_html: { autocomplete: "current-password" } %>
+        <!-- Profile Section -->
+        <div>
+          <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-4">Profile</h3>
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <%= f.input :first_name,
+                            required: false,
+                            label: "First Name",
+                            input_html: {
+                              autocomplete: "given-name",
+                              class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900"
+                            },
+                            label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                            wrapper_html: { class: "mb-0" } %>
+              </div>
+              <div>
+                <%= f.input :last_name,
+                            required: false,
+                            label: "Last Name",
+                            input_html: {
+                              autocomplete: "family-name",
+                              class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900"
+                            },
+                            label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                            wrapper_html: { class: "mb-0" } %>
+              </div>
+            </div>
+
+            <div>
+              <%= f.input :email,
+                          required: true,
+                          label: "Email Address",
+                          input_html: {
+                            autocomplete: "email",
+                            class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900"
+                          },
+                          label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                          wrapper_html: { class: "mb-0" },
+                          error_html: { class: "text-red-600 text-sm mt-1" } %>
+              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                <p class="text-amber-600 text-sm mt-1">Waiting confirmation for: <%= resource.unconfirmed_email %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-slate-200">
+
+        <!-- Password Section -->
+        <div>
+          <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-1">Change Password</h3>
+          <p class="text-slate-500 text-xs mb-4">Leave blank if you don't want to change it</p>
+          <div class="space-y-4">
+            <div>
+              <%= f.input :password,
+                          required: false,
+                          label: "New Password",
+                          hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                          input_html: {
+                            autocomplete: "new-password",
+                            class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900"
+                          },
+                          label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                          wrapper_html: { class: "mb-0" },
+                          hint_html: { class: "text-slate-500 text-xs mt-1" },
+                          error_html: { class: "text-red-600 text-sm mt-1" } %>
+            </div>
+
+            <div>
+              <%= f.input :password_confirmation,
+                          required: false,
+                          label: "Confirm New Password",
+                          input_html: {
+                            autocomplete: "new-password",
+                            class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900"
+                          },
+                          label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                          wrapper_html: { class: "mb-0" },
+                          error_html: { class: "text-red-600 text-sm mt-1" } %>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-slate-200">
+
+        <!-- Confirm Changes -->
+        <div>
+          <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-1">Confirm Changes</h3>
+          <p class="text-slate-500 text-xs mb-4">Enter your current password to save</p>
+          <div>
+            <%= f.input :current_password,
+                        required: true,
+                        label: "Current Password",
+                        input_html: {
+                          autocomplete: "current-password",
+                          class: "w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 text-slate-900"
+                        },
+                        label_html: { class: "block text-sm font-medium text-slate-700 mb-2" },
+                        wrapper_html: { class: "mb-0" },
+                        error_html: { class: "text-red-600 text-sm mt-1" } %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.button :submit, "Save Changes", class: "w-full btn-primary py-3 text-base font-medium" %>
+        </div>
+      <% end %>
+
+      <!-- Sign Out -->
+      <div class="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between">
+        <%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm text-slate-600 hover:text-slate-900 transition-colors" %>
+        <%= button_to "Delete Account", registration_path(resource_name),
+              method: :delete,
+              data: { confirm: "Are you sure? This cannot be undone." },
+              class: "text-sm text-red-500 hover:text-red-700 transition-colors bg-transparent border-0 cursor-pointer" %>
+      </div>
+    </div>
+
+    <!-- Back to Home -->
+    <div class="text-center mt-8">
+      <%= link_to "← Back to Home", root_path, class: "text-slate-600 hover:text-slate-900 transition-colors text-sm" %>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+</div>

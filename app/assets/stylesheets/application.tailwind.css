@@ -517,6 +517,25 @@
   }
 }
 
+/* Flash toast animations */
+.flash-toast {
+  animation: flash-in 0.35s ease-out forwards;
+}
+
+.flash-toast.flash-out {
+  animation: flash-out 0.3s ease-in forwards;
+}
+
+@keyframes flash-in {
+  from { opacity: 0; transform: translateX(1rem); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes flash-out {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(1rem); }
+}
+
 /* Custom animations for enhanced user experience */
 @layer utilities {
   .animate-on-scroll {

@@ -40,13 +40,21 @@
             >
               Blog Posts
             </button>
-            <button 
+            <button
               class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap focus:outline-none transition-colors"
               data-tab="proposals"
               role="tab"
               aria-selected="false"
             >
               Proposals & RFPs
+            </button>
+            <button
+              class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap focus:outline-none transition-colors"
+              data-tab="testimonials"
+              role="tab"
+              aria-selected="false"
+            >
+              Testimonials
             </button>
           </nav>
         </div>
@@ -92,6 +100,16 @@
               </div>
             </div>
           </div>
+
+          <!-- Testimonials Tab -->
+          <div id="testimonials-tab" class="tab-content hidden" role="tabpanel">
+            <div id="admin-testimonials-manager">
+              <div class="text-center py-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 mx-auto mb-4"></div>
+                <p class="text-slate-500">Loading testimonial manager...</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -105,6 +123,7 @@
     messages: <%= raw @messages.to_json(only: [:id, :name, :email, :subject, :content, :read, :created_at]) %>,
     blogPosts: <%= raw @blog_posts.map(&:as_json_with_urls).to_json %>,
     proposalRequests: <%= raw @proposal_requests.map(&:as_json_with_admin_data).to_json %>,
+    testimonials: <%= raw @testimonials.map(&:as_json_with_photo_urls).to_json %>,
     csrfToken: '<%= form_authenticity_token %>'
   };
 
@@ -113,33 +132,49 @@
     const tabs = document.querySelectorAll('[data-tab]');
     const tabContents = document.querySelectorAll('.tab-content');
 
+    function activateTab(tabName) {
+      // Remove active state from all tabs
+      tabs.forEach(t => {
+        t.classList.remove('border-slate-900', 'text-slate-900');
+        t.classList.add('border-transparent', 'text-slate-500');
+        t.setAttribute('aria-selected', 'false');
+      });
+
+      // Hide all tab contents
+      tabContents.forEach(content => {
+        content.classList.add('hidden');
+      });
+
+      // Find and activate the target tab button
+      const targetButton = document.querySelector('[data-tab="' + tabName + '"]');
+      if (targetButton) {
+        targetButton.classList.remove('border-transparent', 'text-slate-500');
+        targetButton.classList.add('border-slate-900', 'text-slate-900');
+        targetButton.setAttribute('aria-selected', 'true');
+      }
+
+      // Show target tab content
+      const targetContent = document.getElementById(tabName + '-tab');
+      if (targetContent) {
+        targetContent.classList.remove('hidden');
+      }
+    }
+
     tabs.forEach(tab => {
       tab.addEventListener('click', function() {
         const targetTab = this.getAttribute('data-tab');
-
-        // Remove active state from all tabs
-        tabs.forEach(t => {
-          t.classList.remove('border-slate-900', 'text-slate-900');
-          t.classList.add('border-transparent', 'text-slate-500');
-          t.setAttribute('aria-selected', 'false');
-        });
-
-        // Add active state to clicked tab
-        this.classList.remove('border-transparent', 'text-slate-500');
-        this.classList.add('border-slate-900', 'text-slate-900');
-        this.setAttribute('aria-selected', 'true');
-
-        // Hide all tab contents
-        tabContents.forEach(content => {
-          content.classList.add('hidden');
-        });
-
-        // Show target tab content
-        const targetContent = document.getElementById(targetTab + '-tab');
-        if (targetContent) {
-          targetContent.classList.remove('hidden');
-        }
+        activateTab(targetTab);
+        const url = new URL(window.location);
+        url.searchParams.set('tab', targetTab);
+        history.replaceState(null, '', url);
       });
     });
+
+    // Restore tab from URL on load
+    const params = new URLSearchParams(window.location.search);
+    const savedTab = params.get('tab');
+    if (savedTab && document.querySelector('[data-tab="' + savedTab + '"]')) {
+      activateTab(savedTab);
+    }
   });
 </script>

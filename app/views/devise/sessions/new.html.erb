@@ -47,15 +47,12 @@
         </div>
 
         <% if devise_mapping.rememberable? %>
-          <div class="flex items-center">
-            <%= f.input :remember_me, 
-                        as: :boolean,
-                        label: "Remember me",
-                        input_html: { 
-                          class: "h-4 w-4 text-slate-900 focus:ring-slate-900 border-slate-300 rounded"
-                        },
-                        label_html: { class: "ml-2 block text-sm text-slate-700" },
-                        wrapper_html: { class: "flex items-center mb-0" } %>
+          <div class="flex items-center gap-3">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <%= f.check_box :remember_me, class: "sr-only peer" %>
+              <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 peer-focus:ring-2 peer-focus:ring-slate-900/20 transition-colors duration-200 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:shadow-sm after:transition-all after:duration-200 peer-checked:after:translate-x-full"></div>
+            </label>
+            <span class="text-sm text-slate-700 select-none">Remember me</span>
           </div>
         <% end %>
 
@@ -65,10 +62,14 @@
       <% end %>
 
       <!-- Links -->
-      <div class="mt-6 text-center">
-        <div class="text-sm space-y-2">
+      <div class="mt-6 text-center space-y-3">
+        <p class="text-sm text-slate-600">
+          Don't have an account?
+          <%= link_to "Create one", new_registration_path(resource_name), class: "font-medium text-slate-900 hover:underline transition-colors" %>
+        </p>
+        <p class="text-sm">
           <%= link_to "Forgot your password?", new_password_path(resource_name), class: "text-slate-600 hover:text-slate-900 transition-colors" %>
-        </div>
+        </p>
       </div>
     </div>
 
