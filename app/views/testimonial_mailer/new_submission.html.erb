@@ -18,6 +18,12 @@
       <%= @testimonial.blurb %>
     </blockquote>
 
+    <% if @testimonial.project_type.present? %>
+      <p style="margin-top: 12px; font-size: 14px;">
+        <strong>What we did:</strong> <%= @testimonial.project_type %>
+      </p>
+    <% end %>
+
     <% if @testimonial.website_url.present? %>
       <p style="margin-top: 12px; font-size: 14px;">
         <strong>Project:</strong> <a href="<%= @testimonial.website_url %>" style="color: #dc2626;"><%= @testimonial.website_url %></a>

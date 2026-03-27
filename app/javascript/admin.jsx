@@ -1642,9 +1642,12 @@ function TestimonialCard({ testimonial, onEdit, onDelete, onToggleVisibility }) 
             <div className="flex">{stars}</div>
           </div>
           {(testimonial.title || testimonial.company) && (
-            <p className="text-sm text-slate-500 mb-2">
+            <p className="text-sm text-slate-500 mb-1">
               {[testimonial.title, testimonial.company].filter(Boolean).join(', ')}
             </p>
+          )}
+          {testimonial.project_type && (
+            <p className="text-xs text-slate-400 mb-2">{testimonial.project_type}</p>
           )}
           <p className="text-slate-600 italic line-clamp-2 mb-3">"{testimonial.blurb}"</p>
           <div className="flex items-center gap-3 text-sm">
@@ -1698,6 +1701,7 @@ function TestimonialForm({ testimonial, onSave, onCancel }) {
     blurb: testimonial?.blurb || '',
     rating: testimonial?.rating || 5,
     website_url: testimonial?.website_url || '',
+    project_type: testimonial?.project_type || '',
     visible: testimonial?.visible || false,
     position: testimonial?.position || '',
     photos: null
@@ -1742,6 +1746,11 @@ function TestimonialForm({ testimonial, onSave, onCancel }) {
           <label className="form-label">Website / Project URL</label>
           <input type="url" name="website_url" value={formData.website_url} onChange={handleChange} className="form-input" placeholder="https://" />
         </div>
+      </div>
+
+      <div className="mt-4">
+        <label className="form-label">What did Linchpin do?</label>
+        <input type="text" name="project_type" value={formData.project_type} onChange={handleChange} className="form-input" placeholder="e.g. Built our website, Designed curriculum, Created a mobile app" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">

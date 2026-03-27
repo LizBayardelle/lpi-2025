@@ -42,7 +42,7 @@ class Admin::TestimonialsController < ApplicationController
   end
 
   def testimonial_params
-    params.require(:testimonial).permit(:name, :company, :title, :blurb, :rating, :website_url, :visible, :position, photos: [])
+    params.require(:testimonial).permit(:name, :company, :title, :blurb, :rating, :website_url, :project_type, :visible, :position, photos: [])
   end
 
   def ensure_admin

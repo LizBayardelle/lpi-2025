@@ -48,6 +48,9 @@
                 <%= [testimonial.title, testimonial.company].compact_blank.join(', ') %>
               </p>
             <% end %>
+            <% if testimonial.project_type.present? %>
+              <p class="text-xs text-slate-400 mt-0.5"><%= testimonial.project_type %></p>
+            <% end %>
             <% if testimonial.website_url.present? %>
               <a href="<%= testimonial.website_url %>" target="_blank" rel="noopener" class="text-sm text-red-600 hover:text-red-800 transition-colors inline-flex items-center gap-1 mt-1">
                 View project
