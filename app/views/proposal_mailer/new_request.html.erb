@@ -1,0 +1,92 @@
+<h2 style="color: #0f172a; font-size: 22px; margin: 0 0 4px 0; font-weight: 600;">New Proposal Request</h2>
+<p style="color: #64748b; font-size: 14px; margin: 0 0 24px 0;">A potential client submitted a proposal request.</p>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; border-radius: 8px; margin-bottom: 24px;">
+  <tr>
+    <td style="padding: 24px;">
+      <!-- Contact Info -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+        <tr>
+          <td>
+            <strong style="color: #0f172a; font-size: 16px;"><%= @proposal.name %></strong>
+            <br><a href="mailto:<%= @proposal.email %>" style="color: #dc2626; font-size: 14px; text-decoration: none;"><%= @proposal.email %></a>
+            <% if @proposal.company.present? %>
+              <br><span style="color: #64748b; font-size: 14px;"><%= @proposal.company %></span>
+            <% end %>
+            <% if @proposal.phone.present? %>
+              <br><span style="color: #64748b; font-size: 14px;"><%= @proposal.phone %></span>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Project Details -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="font-size: 14px; color: #475569;">
+        <% if @proposal.project_type.present? %>
+          <tr>
+            <td style="padding: 6px 0; font-weight: 600; color: #0f172a; width: 140px; vertical-align: top;">Project Type</td>
+            <td style="padding: 6px 0;"><%= @proposal.project_type %></td>
+          </tr>
+        <% end %>
+        <% if @proposal.budget_range.present? %>
+          <tr>
+            <td style="padding: 6px 0; font-weight: 600; color: #0f172a; vertical-align: top;">Budget</td>
+            <td style="padding: 6px 0;"><%= @proposal.budget_range %></td>
+          </tr>
+        <% end %>
+        <% if @proposal.timeline.present? %>
+          <tr>
+            <td style="padding: 6px 0; font-weight: 600; color: #0f172a; vertical-align: top;">Timeline</td>
+            <td style="padding: 6px 0;"><%= @proposal.timeline %></td>
+          </tr>
+        <% end %>
+        <% if @proposal.existing_website.present? %>
+          <tr>
+            <td style="padding: 6px 0; font-weight: 600; color: #0f172a; vertical-align: top;">Existing Site</td>
+            <td style="padding: 6px 0;"><a href="<%= @proposal.existing_website %>" style="color: #dc2626; text-decoration: none;"><%= @proposal.existing_website %></a></td>
+          </tr>
+        <% end %>
+        <% if @proposal.target_audience.present? %>
+          <tr>
+            <td style="padding: 6px 0; font-weight: 600; color: #0f172a; vertical-align: top;">Target Audience</td>
+            <td style="padding: 6px 0;"><%= @proposal.target_audience %></td>
+          </tr>
+        <% end %>
+      </table>
+
+      <% if @proposal.project_description.present? %>
+        <div style="margin-top: 16px; border-left: 3px solid #dc2626; padding-left: 16px;">
+          <p style="margin: 0 0 4px 0; font-weight: 600; color: #0f172a; font-size: 14px;">Project Description</p>
+          <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.6;"><%= simple_format(@proposal.project_description) %></p>
+        </div>
+      <% end %>
+
+      <% if @proposal.why_custom.present? %>
+        <div style="margin-top: 16px; border-left: 3px solid #dc2626; padding-left: 16px;">
+          <p style="margin: 0 0 4px 0; font-weight: 600; color: #0f172a; font-size: 14px;">Why Custom?</p>
+          <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.6;"><%= simple_format(@proposal.why_custom) %></p>
+        </div>
+      <% end %>
+
+      <% if @proposal.special_requirements.present? %>
+        <div style="margin-top: 16px; border-left: 3px solid #dc2626; padding-left: 16px;">
+          <p style="margin: 0 0 4px 0; font-weight: 600; color: #0f172a; font-size: 14px;">Special Requirements</p>
+          <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.6;"><%= simple_format(@proposal.special_requirements) %></p>
+        </div>
+      <% end %>
+
+      <% if @proposal.success_metrics.present? %>
+        <div style="margin-top: 16px; border-left: 3px solid #dc2626; padding-left: 16px;">
+          <p style="margin: 0 0 4px 0; font-weight: 600; color: #0f172a; font-size: 14px;">Success Metrics</p>
+          <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.6;"><%= @proposal.success_metrics %></p>
+        </div>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<p style="font-size: 14px; margin: 0;">
+  <a href="mailto:<%= @proposal.email %>?subject=Re: Your Linchpin Industries Proposal" style="display: inline-block; background-color: #0f172a; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 500;">Reply to <%= @proposal.name %></a>
+  &nbsp;&nbsp;
+  <a href="<%= admin_dashboard_url(tab: 'proposals') %>" style="color: #dc2626; font-size: 14px; text-decoration: none;">View in Dashboard &rarr;</a>
+</p>

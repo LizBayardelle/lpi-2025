@@ -4,6 +4,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     
     if verify_recaptcha(action: 'contact', minimum_score: 0.5) && @message.save
+      ContactMailer.new_message(@message).deliver_later
       redirect_to contact_path, notice: 'Thank you for your message! We\'ll get back to you soon.'
     else
       # Store the message for the form to repopulate

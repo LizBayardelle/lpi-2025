@@ -1,0 +1,31 @@
+<h2 style="color: #0f172a; font-size: 22px; margin: 0 0 4px 0; font-weight: 600;">New Contact Message</h2>
+<p style="color: #64748b; font-size: 14px; margin: 0 0 24px 0;">Someone reached out via the contact form.</p>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; border-radius: 8px; margin-bottom: 24px;">
+  <tr>
+    <td style="padding: 24px;">
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding-bottom: 12px;">
+            <strong style="color: #0f172a; font-size: 16px;"><%= @message.name %></strong>
+            <br><a href="mailto:<%= @message.email %>" style="color: #dc2626; font-size: 14px; text-decoration: none;"><%= @message.email %></a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 16px;">
+            <span style="display: inline-block; background-color: #e2e8f0; color: #475569; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 4px;"><%= @message.subject %></span>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-left: 3px solid #dc2626; padding-left: 16px;">
+            <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.6;"><%= simple_format(@message.content) %></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<p style="font-size: 14px; margin: 0;">
+  <a href="mailto:<%= @message.email %>?subject=Re: <%= @message.subject %>" style="display: inline-block; background-color: #0f172a; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 500;">Reply to <%= @message.name %></a>
+</p>
