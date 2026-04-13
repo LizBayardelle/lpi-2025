@@ -1,5 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
+
+// Reusable Modal
+function Modal({ title, children, onClose }) {
+  const overlayRef = useRef(null);
+
+  useEffect(() => {
+    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleEsc);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div ref={overlayRef} className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm overflow-y-auto py-8 px-4" onClick={(e) => { if (e.target === overlayRef.current) onClose(); }}>
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl my-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+          <h3 className="font-display text-lg font-medium text-slate-900">{title}</h3>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="px-6 py-5 max-h-[75vh] overflow-y-auto">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ProjectManager() {
   const [projects, setProjects] = useState([]);
@@ -108,14 +141,16 @@ function ProjectManager() {
       </div>
 
       {showForm && (
-        <ProjectForm
-          project={editingProject}
-          onSave={handleSave}
-          onCancel={() => {
-            setShowForm(false);
-            setEditingProject(null);
-          }}
-        />
+        <Modal title={editingProject ? 'Edit Project' : 'Add New Project'} onClose={() => { setShowForm(false); setEditingProject(null); }}>
+          <ProjectForm
+            project={editingProject}
+            onSave={handleSave}
+            onCancel={() => {
+              setShowForm(false);
+              setEditingProject(null);
+            }}
+          />
+        </Modal>
       )}
 
       <div className="space-y-4">
@@ -229,11 +264,7 @@ function ProjectForm({ project, onSave, onCancel }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-slate-50 p-6 rounded-lg mb-6">
-      <h3 className="font-display text-lg font-medium text-slate-900 mb-4">
-        {project ? 'Edit Project' : 'Add New Project'}
-      </h3>
-      
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="form-label">Project Name</label>
@@ -260,7 +291,7 @@ function ProjectForm({ project, onSave, onCancel }) {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div>
         <label className="form-label">Short Description (Client Quote)</label>
         <input
           type="text"
@@ -273,7 +304,7 @@ function ProjectForm({ project, onSave, onCancel }) {
         />
       </div>
 
-      <div className="mt-4">
+      <div>
         <label className="form-label">What's Special (Index Card Description)</label>
         <textarea
           name="what_special"
@@ -286,7 +317,7 @@ function ProjectForm({ project, onSave, onCancel }) {
         />
       </div>
 
-      <div className="mt-4">
+      <div>
         <label className="form-label">Long Description (Case Study Details)</label>
         <textarea
           name="long_description"
@@ -298,7 +329,7 @@ function ProjectForm({ project, onSave, onCancel }) {
         />
       </div>
 
-      <div className="mt-4">
+      <div>
         <label className="form-label">Project Image</label>
         <input
           type="file"
@@ -309,7 +340,7 @@ function ProjectForm({ project, onSave, onCancel }) {
         />
       </div>
 
-      <div className="mt-4">
+      <div>
         <label className="flex items-center">
           <input
             type="checkbox"
@@ -322,12 +353,12 @@ function ProjectForm({ project, onSave, onCancel }) {
         </label>
       </div>
 
-      <div className="flex space-x-3 mt-6">
-        <button type="submit" className="btn-primary">
-          {project ? 'Update Project' : 'Create Project'}
-        </button>
+      <div className="flex justify-end space-x-3 pt-4 border-t border-slate-200 mt-6">
         <button type="button" onClick={onCancel} className="btn-secondary">
           Cancel
+        </button>
+        <button type="submit" className="btn-primary">
+          {project ? 'Update Project' : 'Create Project'}
         </button>
       </div>
     </form>
@@ -1471,6 +1502,10 @@ function TestimonialManager() {
               formData.append('testimonial[photos][]', file);
             });
           }
+        } else if (key === 'headshot') {
+          if (data.headshot && data.headshot.length > 0) {
+            formData.append('testimonial[headshot]', data.headshot[0]);
+          }
         } else if (data[key] !== null && data[key] !== undefined) {
           formData.append(`testimonial[${key}]`, data[key]);
         }
@@ -1572,11 +1607,13 @@ function TestimonialManager() {
       </div>
 
       {showForm && (
-        <TestimonialForm
-          testimonial={editingTestimonial}
-          onSave={handleSave}
-          onCancel={() => { setShowForm(false); setEditingTestimonial(null); }}
-        />
+        <Modal title={editingTestimonial ? 'Edit Testimonial' : 'Add Testimonial'} onClose={() => { setShowForm(false); setEditingTestimonial(null); }}>
+          <TestimonialForm
+            testimonial={editingTestimonial}
+            onSave={handleSave}
+            onCancel={() => { setShowForm(false); setEditingTestimonial(null); }}
+          />
+        </Modal>
       )}
 
       {testimonials.length === 0 ? (
@@ -1620,10 +1657,10 @@ function TestimonialCard({ testimonial, onEdit, onDelete, onToggleVisibility }) 
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start gap-4">
-        {/* Photo or placeholder */}
+        {/* Headshot or placeholder */}
         <div className="flex-shrink-0">
-          {testimonial.photo_urls && testimonial.photo_urls.length > 0 ? (
-            <img src={testimonial.photo_urls[0]} alt="" className="w-16 h-16 object-cover rounded-full shadow-md" />
+          {testimonial.headshot_url ? (
+            <img src={testimonial.headshot_url} alt="" className="w-16 h-16 object-cover rounded-full shadow-md" />
           ) : (
             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center">
               <svg className="w-7 h-7 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1647,10 +1684,10 @@ function TestimonialCard({ testimonial, onEdit, onDelete, onToggleVisibility }) 
             </p>
           )}
           {testimonial.project_type && (
-            <p className="text-xs text-slate-400 mb-2">{testimonial.project_type}</p>
+            <p className="text-xs text-slate-400 mb-1">{testimonial.project_type}</p>
           )}
           <p className="text-slate-600 italic line-clamp-2 mb-3">"{testimonial.blurb}"</p>
-          <div className="flex items-center gap-3 text-sm">
+          <div className="flex flex-wrap items-center gap-2 text-sm">
             <button
               onClick={() => onToggleVisibility(testimonial)}
               className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
@@ -1661,15 +1698,24 @@ function TestimonialCard({ testimonial, onEdit, onDelete, onToggleVisibility }) 
             >
               {testimonial.visible ? 'Visible' : 'Hidden'}
             </button>
+            {testimonial.project_name && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.102 1.101" />
+                </svg>
+                {testimonial.project_name}
+              </span>
+            )}
             {testimonial.website_url && (
-              <a href={testimonial.website_url} target="_blank" rel="noopener" className="text-red-600 hover:text-red-800">
-                View project &rarr;
+              <a href={testimonial.website_url} target="_blank" rel="noopener" className="text-red-600 hover:text-red-800 text-xs">
+                View site &rarr;
               </a>
             )}
             {testimonial.photo_urls && testimonial.photo_urls.length > 1 && (
-              <span className="text-slate-400">{testimonial.photo_urls.length} photos</span>
+              <span className="text-slate-400 text-xs">{testimonial.photo_urls.length} photos</span>
             )}
-            <span className="text-slate-400">Submitted {formatDate(testimonial.created_at)}</span>
+            <span className="text-slate-400 text-xs">Submitted {formatDate(testimonial.created_at)}</span>
           </div>
         </div>
 
@@ -1694,6 +1740,8 @@ function TestimonialCard({ testimonial, onEdit, onDelete, onToggleVisibility }) 
 }
 
 function TestimonialForm({ testimonial, onSave, onCancel }) {
+  const projects = window.adminData?.projects || [];
+
   const [formData, setFormData] = useState({
     name: testimonial?.name || '',
     company: testimonial?.company || '',
@@ -1702,8 +1750,10 @@ function TestimonialForm({ testimonial, onSave, onCancel }) {
     rating: testimonial?.rating || 5,
     website_url: testimonial?.website_url || '',
     project_type: testimonial?.project_type || '',
+    project_id: testimonial?.project_id || '',
     visible: testimonial?.visible || false,
     position: testimonial?.position || '',
+    headshot: null,
     photos: null
   });
 
@@ -1721,11 +1771,7 @@ function TestimonialForm({ testimonial, onSave, onCancel }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-slate-50 p-6 rounded-lg mb-6">
-      <h3 className="font-display text-lg font-medium text-slate-900 mb-4">
-        {testimonial ? 'Edit Testimonial' : 'Add Testimonial'}
-      </h3>
-
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="form-label">Name *</label>
@@ -1737,7 +1783,7 @@ function TestimonialForm({ testimonial, onSave, onCancel }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="form-label">Title / Role</label>
           <input type="text" name="title" value={formData.title} onChange={handleChange} className="form-input" />
@@ -1748,15 +1794,27 @@ function TestimonialForm({ testimonial, onSave, onCancel }) {
         </div>
       </div>
 
-      <div className="mt-4">
-        <label className="form-label">What did Linchpin do?</label>
-        <input type="text" name="project_type" value={formData.project_type} onChange={handleChange} className="form-input" placeholder="e.g. Built our website, Designed curriculum, Created a mobile app" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="form-label">What did Linchpin do?</label>
+          <input type="text" name="project_type" value={formData.project_type} onChange={handleChange} className="form-input" placeholder="e.g. Built our website" />
+        </div>
+        <div>
+          <label className="form-label">Linked Project</label>
+          <select name="project_id" value={formData.project_id} onChange={handleChange} className="form-input">
+            <option value="">None</option>
+            {projects.map(p => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="form-label">Rating</label>
           <select name="rating" value={formData.rating} onChange={handleChange} className="form-input">
+            <option value="">No rating</option>
             {[5,4,3,2,1].map(n => (
               <option key={n} value={n}>{'★'.repeat(n)}{'☆'.repeat(5-n)} ({n})</option>
             ))}
@@ -1768,36 +1826,47 @@ function TestimonialForm({ testimonial, onSave, onCancel }) {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div>
         <label className="form-label">Testimonial *</label>
         <textarea name="blurb" value={formData.blurb} onChange={handleChange} required className="form-textarea" rows="4" placeholder="What the client said..." />
       </div>
 
-      <div className="mt-4">
-        <label className="form-label">Photos</label>
-        <input type="file" name="photos" onChange={handleChange} accept="image/*" multiple className="form-input" />
-        {testimonial?.photo_urls && testimonial.photo_urls.length > 0 && (
-          <div className="flex gap-2 mt-2">
-            {testimonial.photo_urls.map((url, i) => (
-              <img key={i} src={url} alt="" className="w-16 h-16 object-cover rounded-lg border border-slate-200" />
-            ))}
-          </div>
-        )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="form-label">Headshot</label>
+          <input type="file" name="headshot" onChange={handleChange} accept="image/*" className="form-input" />
+          {testimonial?.headshot_url && (
+            <div className="mt-2">
+              <img src={testimonial.headshot_url} alt="" className="w-16 h-16 object-cover rounded-full border border-slate-200" />
+            </div>
+          )}
+        </div>
+        <div>
+          <label className="form-label">Project Screenshots</label>
+          <input type="file" name="photos" onChange={handleChange} accept="image/*" multiple className="form-input" />
+          {testimonial?.photo_urls && testimonial.photo_urls.length > 0 && (
+            <div className="flex gap-2 mt-2">
+              {testimonial.photo_urls.map((url, i) => (
+                <img key={i} src={url} alt="" className="w-16 h-16 object-cover rounded-lg border border-slate-200" />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="mt-4">
+      <div>
         <label className="flex items-center">
           <input type="checkbox" name="visible" checked={formData.visible} onChange={handleChange} className="mr-2" />
           <span className="text-sm text-slate-700">Visible on site</span>
         </label>
       </div>
 
-      <div className="flex space-x-3 mt-6">
-        <button type="submit" className="btn-primary">
-          {testimonial ? 'Update Testimonial' : 'Create Testimonial'}
-        </button>
+      <div className="flex justify-end space-x-3 pt-4 border-t border-slate-200">
         <button type="button" onClick={onCancel} className="btn-secondary">
           Cancel
+        </button>
+        <button type="submit" className="btn-primary">
+          {testimonial ? 'Update Testimonial' : 'Create Testimonial'}
         </button>
       </div>
     </form>

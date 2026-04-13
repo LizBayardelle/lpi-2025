@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_26_154003) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_13_193256) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -225,6 +225,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_26_154003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "project_type"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_testimonials_on_project_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -253,4 +255,5 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_26_154003) do
   add_foreign_key "blogs", "users"
   add_foreign_key "resources", "users"
   add_foreign_key "rfps", "users"
+  add_foreign_key "testimonials", "projects"
 end

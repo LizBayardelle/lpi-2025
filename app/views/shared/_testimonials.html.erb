@@ -12,56 +12,129 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" id="testimonial-grid">
       <% testimonials.each do |testimonial| %>
-        <div class="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col animate-on-scroll">
-          <!-- Photos -->
-          <% if testimonial.photos.attached? %>
-            <div class="flex flex-wrap gap-2 mb-4">
-              <% testimonial.photos.each do |photo| %>
-                <div class="w-16 h-16 rounded-lg shadow-md">
-                  <%= image_tag photo.variant(resize_to_fill: [128, 128]), class: "w-full h-full object-cover rounded-lg", alt: "" %>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
-
+        <div class="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col text-center animate-on-scroll">
           <!-- Stars -->
-          <div class="flex items-center gap-0.5 mb-4">
-            <% 5.times do |i| %>
-              <svg class="w-5 h-5 <%= i < testimonial.rating ? 'text-amber-400' : 'text-slate-200' %>" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-              </svg>
+          <div class="flex justify-center gap-0.5" data-row="stars">
+            <% if testimonial.rating.present? %>
+              <% 5.times do |i| %>
+                <svg class="w-4 h-4 <%= i < testimonial.rating ? 'text-amber-400' : 'text-slate-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              <% end %>
+            <% end %>
+          </div>
+
+          <!-- Project Type -->
+          <div class="mt-2" data-row="project-type">
+            <% if testimonial.project_type.present? %>
+              <p class="text-xs text-slate-400 uppercase tracking-wide font-medium"><%= testimonial.project_type %></p>
             <% end %>
           </div>
 
           <!-- Blurb -->
-          <blockquote class="border-l-2 border-red-600/30 pl-4 text-slate-600 leading-relaxed italic mb-6 flex-1">
-            <%= testimonial.blurb %>
+          <blockquote class="text-slate-600 leading-relaxed italic mt-3 flex-1" data-row="blurb">
+            "<%= testimonial.blurb %>"
           </blockquote>
 
-          <!-- Attribution -->
-          <div class="border-t border-slate-100 pt-4">
-            <p class="font-medium text-slate-900 leading-tight"><%= testimonial.name %></p>
-            <% if testimonial.title.present? || testimonial.company.present? %>
-              <p class="text-sm text-slate-500 leading-tight mt-0.5">
-                <%= [testimonial.title, testimonial.company].compact_blank.join(', ') %>
-              </p>
-            <% end %>
-            <% if testimonial.project_type.present? %>
-              <p class="text-xs text-slate-400 mt-0.5"><%= testimonial.project_type %></p>
-            <% end %>
-            <% if testimonial.website_url.present? %>
-              <a href="<%= testimonial.website_url %>" target="_blank" rel="noopener" class="text-sm text-red-600 hover:text-red-800 transition-colors inline-flex items-center gap-1 mt-1">
-                View project
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          <!-- Linked Project + Screenshots -->
+          <div class="mt-4" data-row="extras">
+            <% if testimonial.project.present? %>
+              <a href="<%= testimonial.project.url %>" target="_blank" rel="noopener" class="flex items-center gap-3 bg-slate-50 rounded-lg p-3 mb-3 hover:bg-slate-100 transition-colors group">
+                <% if testimonial.project.image.attached? %>
+                  <div class="w-10 h-10 rounded-md overflow-hidden shrink-0 shadow-sm">
+                    <%= image_tag testimonial.project.image.variant(resize_to_fill: [80, 80]), class: "w-full h-full object-cover", alt: testimonial.project.name %>
+                  </div>
+                <% end %>
+                <div class="text-left flex-1 min-w-0">
+                  <p class="text-xs font-medium text-slate-700 truncate"><%= testimonial.project.name %></p>
+                  <p class="text-xs text-slate-400">View project</p>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-red-500 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
               </a>
+            <% elsif testimonial.website_url.present? %>
+              <div class="mb-3">
+                <a href="<%= testimonial.website_url %>" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-red-600 tracking-wide uppercase transition-colors">
+                  View Project
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                  </svg>
+                </a>
+              </div>
             <% end %>
+            <% if testimonial.photos.attached? %>
+              <div class="flex justify-center gap-2">
+                <% testimonial.photos.each do |photo| %>
+                  <button type="button" class="w-14 h-14 rounded-lg shadow-sm cursor-pointer hover:shadow-md transition-shadow" onclick="openLightbox('<%= rails_blob_url(photo, only_path: true) %>')">
+                    <%= image_tag photo.variant(resize_to_fill: [112, 112]), class: "w-full h-full object-cover rounded-lg pointer-events-none", alt: "" %>
+                  </button>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Attribution -->
+          <div class="border-t border-slate-100 mt-4 pt-4 flex flex-col items-center gap-2" data-row="bio">
+            <% if testimonial.headshot.attached? %>
+              <div class="w-11 h-11 rounded-full overflow-hidden shadow-sm">
+                <%= image_tag testimonial.headshot.variant(resize_to_fill: [88, 88]), class: "w-full h-full object-cover", alt: testimonial.name %>
+              </div>
+            <% end %>
+            <div>
+              <p class="font-medium text-slate-900 text-sm"><%= testimonial.name %></p>
+              <% if testimonial.title.present? || testimonial.company.present? %>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  <%= [testimonial.title, testimonial.company].compact_blank.join(', ') %>
+                </p>
+              <% end %>
+            </div>
           </div>
         </div>
       <% end %>
     </div>
+
+    <script>
+      // Equalize row heights across testimonial cards
+      document.addEventListener('DOMContentLoaded', function() {
+        var rows = ['stars', 'project-type', 'extras', 'bio'];
+        rows.forEach(function(row) {
+          var els = document.querySelectorAll('[data-row="' + row + '"]');
+          var max = 0;
+          els.forEach(function(el) { max = Math.max(max, el.offsetHeight); });
+          els.forEach(function(el) { el.style.minHeight = max + 'px'; });
+        });
+      });
+    </script>
   </div>
 </section>
+
+<!-- Lightbox -->
+<div id="testimonial-lightbox" class="fixed inset-0 z-[70] hidden items-center justify-center bg-black/80 backdrop-blur-sm" onclick="closeLightbox()">
+  <button type="button" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors" onclick="closeLightbox()">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+  <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[85vh] rounded-lg shadow-2xl" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+  function openLightbox(src) {
+    var lb = document.getElementById('testimonial-lightbox');
+    document.getElementById('lightbox-img').src = src;
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
+  }
+  function closeLightbox() {
+    var lb = document.getElementById('testimonial-lightbox');
+    lb.classList.add('hidden');
+    lb.classList.remove('flex');
+    document.getElementById('lightbox-img').src = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>

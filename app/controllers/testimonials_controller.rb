@@ -20,6 +20,6 @@ class TestimonialsController < ApplicationController
   private
 
   def testimonial_params
-    params.require(:testimonial).permit(:name, :company, :title, :blurb, :rating, :website_url, :project_type, photos: [])
+    params.require(:testimonial).permit(:name, :company, :title, :blurb, :rating, :website_url, :project_type, :headshot, photos: [])
   end
 end
